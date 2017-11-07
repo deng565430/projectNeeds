@@ -1,6 +1,6 @@
 <template>
 <div class="recommend">
-      
+
         <pop-box class="provincelist" ref="provincelists" v-if="showCitysList" :posTop="clientTop" :typeList="provincelist" @showPopBox="showCityList">
           <div class="pop-city-list" ref="cityList">
              <div  @click.stop.prevent>
@@ -10,21 +10,21 @@
                         <ul>
                           <li v-for="(item, index) in provincelist" :class="[provinceActive === item.name ? 'cityActive': '']" @touchstart.prevent="selectProvince(item, index)">{{item.name}}</li>
                         </ul>
-                      </scroll>  
+                      </scroll>
                     </div>
                     <div  class="pop-city-height">
                       <scroll class="pop-city-scroll" v-if="childCitylist.length" :data="childCitylist">
                         <ul ref="citys">
                           <li v-for="(item, index) in childCitylist" :class="[cityActive === item ? 'cityActive': '']" @touchstart.prevent="selectCity(item, index)">{{item}}</li>
                         </ul>
-                      </scroll>  
+                      </scroll>
                     </div>
                     <div  class="pop-city-height">
                       <scroll class="pop-city-scroll" ref="scrollCity" v-if="districtList.length" :data="districtList">
                         <ul ref="district">
                           <li ref="districtList" v-for="(item, index) in districtList" :class="[districtlistActive === item ? 'cityActive': '']" @touchstart.prevent="selectdistrictlist(item, index)">{{item}}</li>
                         </ul>
-                      </scroll>  
+                      </scroll>
                     </div>
                </div>
                <div class="pop-city-btn">
@@ -54,17 +54,17 @@
             <div v-else class="show-loading">
               <loading title=""></loading>
             </div>
-          </div>  
+          </div>
         </pop-box>
       <div class="scroll">
-        <scroll 
-              ref="scroll" 
+        <scroll
+              ref="scroll"
               class="recommend-content"
               @scroll="scrollStart"
               :listenScroll="true"
               :pullup="pullup"
-              :beforeScroll="true" 
-              @beforeScroll="beforeScroll" 
+              :beforeScroll="true"
+              @beforeScroll="beforeScroll"
               @scrollToEnd="searchMore"
               :data="projectList">
           <div>
@@ -78,7 +78,7 @@
               </slider>
             </div>
             <div>
-              <banner @showProject="showProjectDianyong"></banner>
+              <banner></banner>
             </div>
             <div >
               <ul class="type-list"  ref="typeList">
@@ -91,7 +91,7 @@
               <p>{{noResultWrapper}}</p>
             </div>
           </div>
-        </scroll> 
+        </scroll>
       </div>
       <div class="scroll-to-top" ref="scrollToTop" @click="scrollToTop">
         <i class="icon-scrollTop"></i>
@@ -99,9 +99,9 @@
       <div class="to-one-price" @click="toOnePrice">
         <img :src="onePrice" alt="">
       </div>
-        
+
         <router-view></router-view>
-      
+
 </div>
 </template>
 
@@ -117,6 +117,7 @@ const selectList = [{
   name: '物业类型',
   type: 'all'
 }]
+const NUM = 255
 import { getProjectList, getTypeList, getProvincelist, getCitylist, getDistirctlist, getBannerImg } from 'api/recommendList'
 import Slider from 'base/slider/slider'
 import SearchBox from 'base/search-box/search-box'
@@ -142,7 +143,7 @@ export default {
       projectList: [],
       typeList: [],
       typeListModel: [],
-      onePrice: require('common/image/onePrice.png'),
+      onePrice: require('common/image/yifangyijia.png'),
       active: 3,
       provinceActive: '',
       query: '',
@@ -225,7 +226,7 @@ export default {
         this.$refs.typeListClone.style.top = '50px'
         this.showCitysList = false
         this.showTypeList = false
-        this.$refs.scroll.scrollTo(0, -247, 600)
+        this.$refs.scroll.scrollTo(0, -NUM, 600)
         this.$refs.scroll.enable()
       }, 4000)
     },
@@ -244,7 +245,7 @@ export default {
       if (num > 0.7) {
         num = 0.7
       }
-      if (y > 247) {
+      if (y > NUM) {
         if (this.$refs.typeListClone.style.display !== 'block') {
           this.$refs.typeListClone.style.display = 'block'
         }
@@ -298,7 +299,7 @@ export default {
         this.projectList = res.data.data
       })
       setTimeout(() => {
-        this.$refs.scroll.scrollTo(0, -247)
+        this.$refs.scroll.scrollTo(0, -NUM)
       }, 50)
     },
     clearValue() {
@@ -313,7 +314,7 @@ export default {
       this._getProjectList()
     },
     getTypeList(item, index, flag) {
-      this.$refs.scroll.scrollTo(0, -247)
+      this.$refs.scroll.scrollTo(0, -NUM)
       if (flag) {
         this.clientTop = this.$refs.typeListClone.getBoundingClientRect().top + this.$refs.typeListClone.getBoundingClientRect().height - 2
       } else {
@@ -436,9 +437,6 @@ export default {
       setTimeout(() => {
         this.$refs.scroll.scrollTo(0, 0, 300)
       }, 350)
-    },
-    showProjectDianyong() {
-      this.$router.push('/list/1')
     },
     scrollToTop() {
       this.$refs.scroll.scrollTo(0, 0, 600)
@@ -594,7 +592,7 @@ export default {
       text-align: center
       z-index: 800
       p
-        line-height: 30px  
+        line-height: 30px
   .scroll-to-top
     position: fixed
     bottom: 20px
@@ -606,8 +604,8 @@ export default {
       color: rgba(0, 0, 0, 0)
   .to-one-price
     position: fixed
-    height: 80px
-    width: 160px
+    height: 100px
+    width: 30px
     bottom: 50px
     left: 0px
     font-size: 40px
@@ -697,7 +695,7 @@ export default {
         font-size: $font-size-medium-x
         box-sizing: border-box
       .active
-        border-bottom: 2px solid #EA8910 
+        border-bottom: 2px solid #EA8910
 .slide-enter-active, .slide-leave-active
   transition: all 0.3s
 
@@ -706,10 +704,10 @@ export default {
 .type-list-enter-active, .type-list-leave-active
   transition: all 0.3s
 .type-list-enter, .type-list-leave-to
-  transform: translate3d(100%, 0, 0)       
+  transform: translate3d(100%, 0, 0)
 @keyframes type-list-clild-fadein
   0%
     opacity: 0
   100%
-    opacity: 1      
+    opacity: 1
 </style>

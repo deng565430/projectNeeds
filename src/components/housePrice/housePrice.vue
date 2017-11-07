@@ -161,7 +161,7 @@ export default {
       projectCount: '',
       typeList: [],
       typeListModel: [],
-      active: 3,
+      active: -1,
       provinceActive: '',
       query: '',
       cityActive: '',

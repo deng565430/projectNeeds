@@ -9,12 +9,6 @@ const RecommendList = (resolve) => {
   })
 }
 
-const Disc = (resolve) => {
-  import('components/disc/disc').then((module) => {
-    resolve(module)
-  })
-}
-
 const Details = (resolve) => {
   import('components/details/details').then((module) => {
     resolve(module)
@@ -50,12 +44,6 @@ export default new Router({
       component: RecommendList,
       name: 'recommendList',
       children: [{
-        path: 'list/:id',
-        component: Disc,
-        name: 'recommendListChild',
-        mate: { keepAlive: true }
-      },
-      {
         path: 'detail/:id',
         component: Details,
         name: 'detail',

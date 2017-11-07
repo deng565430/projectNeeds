@@ -1,12 +1,9 @@
 <template>
   <div>
    <div class="banner-img">
-      <div class="img-list" @click="showProject">
-          <img :src="active1" alt="">
-      </div>
       <div class="img-list">
           <router-link to="/bannerDetail">
-            <img :src="active2" alt="">  
+            <img :src="active2" alt="">
           </router-link>
       </div>
    </div>
@@ -17,13 +14,7 @@
   export default {
     data () {
       return {
-        active1: require('common/image/active_1.jpg'),
-        active2: require('common/image/active_2.jpg')
-      }
-    },
-    methods: {
-      showProject () {
-        this.$emit('showProject')
+        active2: require('common/image/active_03.jpg')
       }
     }
   }
@@ -33,8 +24,9 @@
   @import "~common/stylus/variable"
   .banner-img
     display: flex
+    margin-top: 5px
     .img-list
-      width: 50%
+      width: 100%
       img
         width: 100%
         height: 100%
