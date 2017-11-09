@@ -3,6 +3,7 @@
     <div class="show-detail">
           <div class="title" v-if="detailList.length">
             <my-title :title="'项目介绍'"></my-title>
+            <router-link tag="div" :to="'/exportPage/' + id" class="export-img"><img :src="exportImg" alt=""></router-link>
           </div>
           <scroll ref="scroll" :beforeScroll="true" @beforeScroll="beforeScroll" :pullup="pullup" class="list" :data="detailList">
             <div class="detail-list">
@@ -228,7 +229,7 @@
     </div>
   </transition>
 </template>
-<script type="text/ecmascript-6">
+<script type="text/babel">
   import Scroll from 'base/scroll/scroll'
   import Slider from 'base/slider/slider'
   import confirm from 'base/confirm/confirm'
@@ -238,6 +239,7 @@
   export default {
     data() {
       return {
+        exportImg: require('common/image/export.png'),
         pullup: true,
         detailList: [],
         sliderImg: [],
@@ -394,6 +396,12 @@
       color: white
       background: rgba(0, 0, 0, 0.5)
       top: 0
+      .export-img
+        position: absolute
+        top: 8px
+        right: 16px
+        img
+          width: 24px
     .list
       position: fixed
       top: 0

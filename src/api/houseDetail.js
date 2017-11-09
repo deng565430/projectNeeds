@@ -1,8 +1,7 @@
-import axios from 'axios'
-import { http } from './config'
+import $api from './index'
 
 export function getProjectDetail (name) {
-  const url = `${http}/pro/house2price/getHoue2PriceByProject?name=${name}`
+  const url = `/pro/house2price/getHoue2PriceByProject?name=${name}`
 
-  return axios.get(url)
+  return $api.get(url)
 }

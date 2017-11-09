@@ -71,7 +71,8 @@
             <div v-if="recommends.length" class="slider-wrapper" ref="sliderWrapper">
               <slider>
                 <div v-for="item in recommends" class="slider-img">
-                  <router-link :to="'/detail/' + item.projectid">
+                  <router-link tag="a" :to="'/detail/' + item.projectid">
+                    <p :style="sliderContentText">{{item.project_name}}</p>
                     <img class="needsclick" @load="loadImage" :src="'http://sofmanager.fangsir007.com/image/' + item.image">
                   </router-link>
                 </div>
@@ -192,7 +193,10 @@ export default {
       districtList: [],
       show: true,
       clientTop: 0,
-      selectTypeIndex: -1
+      selectTypeIndex: -1,
+      sliderContentText: {
+        width: document.body.clientWidth + 'px'
+      }
     }
   },
   created () {
@@ -571,9 +575,23 @@ export default {
       width: 100%
       height: 200px
       overflow: hidden
-      img
-        width: 100%
-        height: 200px
+      .slider-img
+        a
+          width: 100%
+        p
+          z-index: 999999
+          height: 40px
+          line-height: 40px
+          background: rgba(0, 0, 0, 0.4)
+          position: absolute
+          text-align: center
+          bottom: 30px
+          color: white
+          font-size: 30px
+          transition: all .4s
+        img
+          width: 100%
+          height: 200px
     .type-list
       display: flex
       justify-content: space-around

@@ -16,6 +16,9 @@ module.exports = {
       'vue-router'
     ]
   },
+  externals: {
+    'html2canvas': 'html2canvas'
+  },
   output: {
     path: config.build.assetsRoot,
     filename: '[name].js',

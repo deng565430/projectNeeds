@@ -33,6 +33,12 @@ const HouseDetails = (resolve) => {
   })
 }
 
+const ExportPage = (resolve) => {
+  import('components/exportPage/exportPage').then((module) => {
+    resolve(module)
+  })
+}
+
 export default new Router({
   routes: [
     {
@@ -48,8 +54,7 @@ export default new Router({
         component: Details,
         name: 'detail',
         mate: { keepAlive: true }
-      },
-      {
+      }, {
         path: 'bannerDetail',
         component: BannerDetail,
         name: 'bannerDetail',
@@ -64,5 +69,10 @@ export default new Router({
         name: 'detail',
         mate: { keepAlive: true }
       }]
+    }, {
+      path: '/exportPage/:id',
+      component: ExportPage,
+      name: 'exportPage',
+      mate: { keepAlive: true }
     }]
 })

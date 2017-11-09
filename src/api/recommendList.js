@@ -1,5 +1,4 @@
-import { http } from './config'
-import axios from 'axios'
+import $api from './index'
 
 export function getProjectList (start, length, province, city, district, type, pricemin, pricemax, projectName) {
   const url = '/pro/getprojectlistBydistrict'
@@ -18,46 +17,46 @@ export function getProjectList (start, length, province, city, district, type, p
 
   // 设置请求头
   // return axios.post(url, data, {headers: {'Accept': 'XMLHttpRequest'}})
-  return axios.post(url, data)
+  return $api.post(url, data)
 }
 
 export function getTypeList () {
-  const url = `${http}/pro/getwuye`
+  const url = `/pro/getwuye`
 
-  return axios.get(url)
+  return $api.get(url)
 }
 
 export function getProvincelist () {
-  const url = `${http}/pro/getProvincelist`
+  const url = `/pro/getProvincelist`
 
-  return axios.get(url)
+  return $api.get(url)
 }
 
 export function getDistirctlist (province, city) {
-  const url = `${http}/pro/getDistirctlist`
+  const url = `/pro/getDistirctlist`
 
   const data = {
     province,
     city
   }
 
-  return axios.post(url, data)
+  return $api.post(url, data)
 }
 
 export function getCitylist (data) {
-  const url = `${http}/pro/getCitylist?city=${data}`
+  const url = `/pro/getCitylist?city=${data}`
 
-  return axios.post(url)
+  return $api.post(url)
 }
 
 export function getDianyong () {
-  const url = `${http}/pro/getDianyong`
+  const url = `/pro/getDianyong`
 
-  return axios.get(url)
+  return $api.get(url)
 }
 
 export function getBannerImg () {
-  const url = `${http}/pro/getrotation`
+  const url = `/pro/getrotation`
 
-  return axios.get(url)
+  return $api.get(url)
 }

@@ -1,8 +1,7 @@
-import axios from 'axios'
-import { http } from './config'
+import $api from './index'
 
 export function countNum () {
-  const url = `${http}/user/addViewLog?type=11`
+  const url = `/user/addViewLog?type=11`
 
-  return axios.get(url)
+  return $api.get(url)
 }

@@ -53,7 +53,9 @@
         }
         this.scroll = new BScroll(this.$refs.wrapper, {
           probeType: this.probeType,
-          click: this.click
+          click: this.click,
+          preventDefault: false,
+          preventDefaultException: { tagName: /^(INPUT|TEXTAREA|BUTTON|SELECT)$/ }
         })
         if (this.listenScroll) {
           let me = this
