@@ -7,6 +7,9 @@ import router from './router'
 import fastclick from 'fastclick'
 import VueLazyload from 'vue-lazyload'
 
+/* eslint-disble no-unused-vars */
+import 'common/js/html2canvas.js'
+
 import 'common/stylus/index.styl'
 
 // 解决移动端300毫秒的延迟

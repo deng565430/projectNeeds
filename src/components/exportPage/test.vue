@@ -1,115 +1,111 @@
 <template>
-  <div class="show-detail">
-    <div class="title" id="dom" v-if="detailList.length">
-      <my-title :title="'项目介绍'"></my-title>
-    </div>
-    <scroll ref="scroll" class="list" :data="detailList">
-      <div class="detail-list">
-        <div class="detail-child" v-if="detailList.length" id="htmlToImg">
-          <div v-for="item in detailList">
-            <div class="slider-wrapper" v-if="item.home_page != null ? true : false">
-              <img crossorigin="anonymous" :src="'http://sofmanager.fangsir007.com/image/' + item.home_page[0]" alt="">
-            </div>
-            <div class="item-title">
-              <div class="item-addr">
-                <h3 class="pink">{{title}} </h3>
-                <span>{{item.address}}</span>
-              </div>
-            </div>
-            <div class="item-sell" v-if="item.selling_point != null ? (item.selling_point.length > 1 ? true : false) : false">
-              <div>
-                <div class="pro-sell">
-                  项目卖点
-                </div>
-                <div class="item-sell-child" v-for="sellItem in item.selling_point" v-if="sellItem.length > 3">
-                  <span class="sell-l">
-                    <i class="icon-star"></i>
-                  </span>
-                  <span class="sell-r">{{sellItem}}</span>
-                </div>
-              </div>
-            </div>
-            <div class="item-sell">
-              <div v-if="item.dynamic != null">
-                <div class="pro-sell">
-                  最新动态
-                </div>
-                <div class="item-sell-child">
-                  <span class="sell-l">
-                    <i class="icon-star"></i>
-                  </span>
-                  <span class="sell-r">{{item.dynamic}}</span>
-                </div>
-              </div>
-            </div>
-            <div class="item-info">
-              <div class="info-title" ref="infoDesc">
-                <div>
-                  项目信息
-                </div>
-              </div>
-              <div class="info-desc">
-                <h3>楼盘信息</h3>
-                <p v-if="item.project_name != null">楼盘名称：{{item.project_name}}</p>
-                <p v-if="item.unit_price != null">单价：{{item.unit_price}}</p>
-                <p v-if="item.area != null">面积：{{item.area}}</p>
-                <p v-if="item.total_price != null">总价：{{item.total_price}}万起</p>
-                <p v-if="item.delivery_time != null">交房时间：{{item.delivery_time}}</p>
-                <p v-if="item.renovation != null">交房标准：{{item.renovation}}</p>
-              </div>
-              <div class="info-list">
-                <span>
-                  <img :src="heartImg" alt="">
-                </span>
-                <div v-if="item.regional_introduction != null">
-                  <h3>区域介绍</h3>
-                  <p v-for="regItem in item.regional_introduction">{{regItem}}</p>
-                </div>
-                <span>
-                  <img :src="heartImg" alt="">
-                </span>
-                <div v-if="item.project_introduction != null">
-                  <h3>项目介绍</h3>
-                  <p v-for="proItem in item.project_introduction">{{proItem}}</p>
-                </div>
-                <span>
-                  <img :src="heartImg" alt="">
-                </span>
-                <div>
-                  <h3 v-if="item.supporting_facilities != null ? true : false">配套设施</h3>
-                  <p class="sup-sty" v-if="item.supporting_facilities != null && item.supporting_facilities.length >= 1" v-for="supItem in item.supporting_facilities">{{supItem}}</p>
-                </div>
-              </div>
-            </div>
-            <div class="item-photo" v-if="item.property_album != null ? (item.property_album.length >= 1 ? true : false) : false">
-              <div class="photo-title" ref="infophoto">
-                <div>
-                  楼盘效果图
-                </div>
-              </div>
-              <div class="photo-list" v-for="(photoItem, index) in item.property_album">
-                <img crossorigin="anonymous" @load="loadImage" :src="'http://sofmanager.fangsir007.com/image/' + photoItem" alt="">
-              </div>
-            </div>
-            <div class="item-photo" v-if="item.huxing_img != null ? (item.huxing_img.length >= 1 ? true : false) : false">
-              <div class="photo-title" ref="infoHuxing">
-                <div>
-                  户型图
-                </div>
-              </div>
-              <div class="photo-list" v-for="(huItem, index) in item.huxing_img" v-if="item.huxing_img != null ? true : false">
-                <img crossorigin="anonymous" @load="loadImage" :src="'http://sofmanager.fangsir007.com/image/' + huItem" alt="">
-              </div>
-            </div>
+    <div class="show-detail">
+          <div class="title" id="dom" v-if="detailList.length">
+            <my-title :title="'项目介绍'"></my-title>
           </div>
-        </div>
-      </div>
-    </scroll>
-    <div class="toimgpromtp" v-if="isToImg">
-      <loading title=""></loading>
-      <p>{{isToImgTitle}}</p>
+          <scroll ref="scroll" class="list" :data="detailList">
+            <div class="detail-list">
+              <div class="detail-child" v-if="detailList.length"  id="htmlToImg">
+                <div v-for="item in detailList" >
+                  <div class="slider-wrapper" v-if="item.home_page != null ? true : false">
+                    <img crossorigin="anonymous" :src="'http://sofmanager.fangsir007.com/image/' + item.home_page[0]" alt="">
+                  </div>
+                  <div class="item-title">
+                    <div class="item-addr">
+                      <h3 class="pink">{{title}} </h3>
+                      <span>{{item.address}}</span>
+                    </div>
+                  </div>
+                  <div class="item-sell" v-if="item.selling_point != null ? (item.selling_point.length > 1 ? true : false) : false">
+                    <div>
+                      <div class="pro-sell">
+                        项目卖点
+                      </div>
+                      <div class="item-sell-child" v-for="sellItem in item.selling_point" v-if="sellItem.length > 3">
+                        <span class="sell-l"><i class="icon-star"></i></span>
+                        <span class="sell-r">{{sellItem}}</span>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="item-sell">
+                    <div v-if="item.dynamic != null">
+                      <div class="pro-sell">
+                        最新动态
+                      </div>
+                      <div class="item-sell-child">
+                        <span class="sell-l"><i class="icon-star"></i></span>
+                        <span class="sell-r">{{item.dynamic}}</span>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="item-info">
+                    <div class="info-title" ref="infoDesc">
+                      <div>
+                        项目信息
+                      </div>
+                    </div>
+                    <div class="info-desc">
+                      <h3>楼盘信息</h3>
+                      <p v-if="item.project_name != null">楼盘名称：{{item.project_name}}</p>
+                      <p v-if="item.unit_price != null">单价：{{item.unit_price}}</p>
+                      <p v-if="item.area != null">面积：{{item.area}}</p>
+                      <p v-if="item.total_price != null">总价：{{item.total_price}}万起</p>
+                      <p v-if="item.delivery_time != null">交房时间：{{item.delivery_time}}</p>
+                      <p v-if="item.renovation != null">交房标准：{{item.renovation}}</p>
+                    </div>
+                    <div class="info-list">
+                      <span>
+                        <img :src="heartImg" alt="">
+                      </span>
+                      <div v-if="item.regional_introduction != null">
+                        <h3>区域介绍</h3>
+                        <p v-for="regItem in item.regional_introduction">{{regItem}}</p>
+                      </div>
+                      <span>
+                        <img :src="heartImg" alt="">
+                      </span>
+                      <div v-if="item.project_introduction != null">
+                        <h3>项目介绍</h3>
+                        <p v-for="proItem in item.project_introduction">{{proItem}}</p>
+                      </div>
+                      <span>
+                        <img :src="heartImg" alt="">
+                      </span>
+                      <div>
+                        <h3 v-if="item.supporting_facilities != null ? true : false">配套设施</h3>
+                        <p class="sup-sty" v-if="item.supporting_facilities != null && item.supporting_facilities.length >= 1" v-for="supItem in item.supporting_facilities">{{supItem}}</p>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="item-photo"  v-if="item.property_album != null ? (item.property_album.length >= 1 ? true : false) : false">
+                      <div class="photo-title" ref="infophoto">
+                        <div>
+                          楼盘效果图
+                        </div>
+                      </div>
+                      <div class="photo-list" v-for="(photoItem, index) in item.property_album">
+                        <img crossorigin="anonymous"  @load="loadImage" :src="'http://sofmanager.fangsir007.com/image/' + photoItem" alt="">
+                      </div>
+                  </div>
+                  <div class="item-photo"  v-if="item.huxing_img != null ? (item.huxing_img.length >= 1 ? true : false) : false">
+                      <div class="photo-title" ref="infoHuxing">
+                        <div>
+                          户型图
+                        </div>
+                      </div>
+                      <div class="photo-list" v-for="(huItem, index) in item.huxing_img" v-if="item.huxing_img != null ? true : false">
+                        <img crossorigin="anonymous"  @load="loadImage" :src="'http://sofmanager.fangsir007.com/image/' + huItem" alt="">
+                      </div> 
+                  </div>
+                </div>
+              </div> 
+            </div>
+          </scroll>
+          <div class="toimgpromtp" v-if="isToImg">
+            <loading title=""></loading>
+            <p>{{isToImgTitle}}</p>
+          </div> 
     </div>
-  </div>
 </template>
 <script type="text/babel">
   import Scroll from 'base/scroll/scroll'
@@ -137,11 +133,11 @@
       const self = this
       setTimeout(function() {
         self.consoleHtml2canvas()
-      }, 4000)
-      if (self.isToImg) {
+      }, 2000)
+      if (!self.isToImg) {
         setTimeout(function() {
           self.isToImgTitle = '生成失败！请重试'
-        }, 8000)
+        }, 5000)
       }
     },
     methods: {
@@ -182,7 +178,7 @@
             self.isToImgTitle = '生成成功！'
             setTimeout(function() {
               self.isToImg = false
-            }, 2000)
+            }, 1000)
           } else {
             todom.appendChild(canvas)
             self.isToImgTitle = '您的设备暂不支持！'
@@ -228,7 +224,8 @@
   }
 </script>
 <style scoped lang="stylus" rel="stylesheet/stylus">
-  @import "~common/stylus/variable" 
+  @import "~common/stylus/variable"
+  
   .show-detail
     position: fixed
     width: 100%
