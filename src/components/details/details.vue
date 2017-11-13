@@ -337,7 +337,7 @@
       },
       confirmClear() {
         if (this.text === '正在整理此项目数据') {
-          this.$router.back()
+          window.location.href = '/remmcondlist'
         }
       },
       beforeScroll() {

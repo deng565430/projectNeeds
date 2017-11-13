@@ -8,7 +8,7 @@
         <div class="detail-child" v-if="detailList.length" id="htmlToImg">
           <div v-for="item in detailList">
             <div class="slider-wrapper" v-if="item.home_page != null ? true : false">
-              <img crossorigin="anonymous" :src="'http://sofmanager.fangsir007.com/image/' + item.home_page[0]" alt="">
+              <img  :src="'http://sofmanager.fangsir007.com/image/' + item.home_page[0]" alt="">
             </div>
             <div class="item-title">
               <div class="item-addr">
@@ -88,7 +88,7 @@
                 </div>
               </div>
               <div class="photo-list" v-for="(photoItem, index) in item.property_album">
-                <img crossorigin="anonymous" @load="loadImage" :src="'http://sofmanager.fangsir007.com/image/' + photoItem" alt="">
+                <img  @load="loadImage" :src="'http://sofmanager.fangsir007.com/image/' + photoItem" alt="">
               </div>
             </div>
             <div class="item-photo" v-if="item.huxing_img != null ? (item.huxing_img.length >= 1 ? true : false) : false">
@@ -98,7 +98,7 @@
                 </div>
               </div>
               <div class="photo-list" v-for="(huItem, index) in item.huxing_img" v-if="item.huxing_img != null ? true : false">
-                <img crossorigin="anonymous" @load="loadImage" :src="'http://sofmanager.fangsir007.com/image/' + huItem" alt="">
+                <img @load="loadImage"   :src="'http://sofmanager.fangsir007.com/image/' + huItem" alt="">
               </div>
             </div>
           </div>
@@ -134,15 +134,6 @@
     },
     created() {
       this._getDetail()
-      const self = this
-      setTimeout(function() {
-        self.consoleHtml2canvas()
-      }, 4000)
-      if (self.isToImg) {
-        setTimeout(function() {
-          self.isToImgTitle = '生成失败！请重试'
-        }, 8000)
-      }
     },
     methods: {
       consoleHtml2canvas () {
@@ -181,32 +172,27 @@
             shareContent.insertBefore(image, shareContent.childNodes[0])
             self.isToImgTitle = '生成成功！'
             setTimeout(function() {
+              self.$refs.scroll.refresh()
               self.isToImg = false
             }, 2000)
           } else {
             todom.appendChild(canvas)
             self.isToImgTitle = '您的设备暂不支持！'
-            self.$router.back()
+            setTimeout(function() {
+              self.$router.back()
+            }, 2000)
           }
         })
       },
       loadImage() {
         if (!this.checkloaded) {
           this.checkloaded = true
+          const self = this
+          setTimeout(function() {
+            self.consoleHtml2canvas()
+          }, 4000)
         }
         this.$refs.scroll.refresh()
-      },
-      showMove(name) {
-        if (name === 'photo') {
-          this.isShowPhoto = true
-        } else if (name === 'huxing') {
-          this.isShowHuxing = true
-        } else {
-          this.isShow = true
-        }
-        setTimeout(() => {
-          this.$refs.scroll.refresh()
-        }, 20)
       },
       _getDetail() {
         getProjectDetail(this.id).then(res => {
