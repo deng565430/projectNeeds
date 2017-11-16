@@ -1,6 +1,6 @@
 import axios from 'axios'
-import { baseUrl } from './config.js'
-
+import { baseUrl } from '../config/env.js'
+console.log(baseUrl)
 export default {
   get: function(url) {
     var result = axios({

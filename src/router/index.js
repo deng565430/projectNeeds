@@ -1,8 +1,3 @@
-import Vue from 'vue'
-import Router from 'vue-router'
-
-Vue.use(Router)
-
 const RecommendList = (resolve) => {
   import('components/recommendList/recommendList').then((module) => {
     resolve(module)
@@ -39,40 +34,40 @@ const ExportPage = (resolve) => {
   })
 }
 
-export default new Router({
-  routes: [
-    {
-      path: '/',
-      component: RecommendList
-    },
-    {
-      path: '/',
-      component: RecommendList,
-      name: 'recommendList',
-      children: [{
-        path: 'detail/:id',
-        component: Details,
-        name: 'detail',
-        mate: { keepAlive: true }
-      }, {
-        path: 'bannerDetail',
-        component: BannerDetail,
-        name: 'bannerDetail',
-        mate: { keepAlive: true }
-      }]
-    }, {
-      path: '/housePrice',
-      component: HousePrice,
-      children: [{
-        path: 'houseDetail/:pro',
-        component: HouseDetails,
-        name: 'detail',
-        mate: { keepAlive: true }
-      }]
-    }, {
-      path: '/exportPage/:id',
-      component: ExportPage,
-      name: 'exportPage',
+export default [
+  {
+    path: '/',
+    component: RecommendList,
+    meta: { keepAlive: true }
+  }, {
+    path: '/recommendList/',
+    component: RecommendList,
+    meta: { keepAlive: true },
+    name: 'recommendList'
+  }, {
+    path: '/detail',
+    component: Details
+  }, {
+    path: '/bannerDetail',
+    component: BannerDetail,
+    meta: { keepAlive: true }
+  }, {
+    path: '/housePrice',
+    component: HousePrice,
+    children: [{
+      path: 'houseDetail/:pro',
+      component: HouseDetails,
+      name: 'detail',
       mate: { keepAlive: true }
     }]
-})
+  }, {
+    path: '/houseDetail',
+    component: HouseDetails,
+    meta: { keepAlive: true }
+  }, {
+    path: '/exportPage',
+    component: ExportPage,
+    name: 'exportPage',
+    mate: { keepAlive: true }
+  }]
+

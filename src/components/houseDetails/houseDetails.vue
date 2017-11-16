@@ -49,7 +49,7 @@
     </div>
   </transition>
 </template>
-<script type="text/ecmascript-6">
+<script>
   import Scroll from 'base/scroll/scroll'
   import confirm from 'base/confirm/confirm'
   import Loading from 'base/loading/loading'
@@ -61,7 +61,7 @@
       return {
         pullup: true,
         detailList: [],
-        project: this.$route.params.pro,
+        project: this.$route.query.id,
         textarea: '',
         text: '',
         confirmBtnText: '确定',

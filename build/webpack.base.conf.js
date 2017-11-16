@@ -17,7 +17,7 @@ module.exports = {
     ]
   },
   externals: {
-    'html2canvas': 'html2canvas'
+    'wx': 'wx'
   },
   output: {
     path: config.build.assetsRoot,

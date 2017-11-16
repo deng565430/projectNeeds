@@ -71,7 +71,7 @@
             <div v-if="recommends.length" class="slider-wrapper" ref="sliderWrapper">
               <slider>
                 <div v-for="item in recommends" class="slider-img">
-                  <router-link tag="a" :to="'/detail/' + item.projectid">
+                  <router-link tag="a" :to="{path:'/detail',query: {id: `${item.projectid}`}}">
                     <p :style="sliderContentText">{{item.project_name}}</p>
                     <img class="needsclick" @load="loadImage" :src="'http://sofmanager.fangsir007.com/image/' + item.image">
                   </router-link>
@@ -205,6 +205,22 @@ export default {
     this._getProjectList()
     this._getTypeList()
     this._getBannerImg()
+    window.wx.onMenuShareAppMessage({
+      title: '2', // 分享标题
+      desc: '3', // 分享描述
+      link: '4', // 分享链接，该链接域名或路径必须与当前页面对应的公众号JS安全域名一致
+      imgUrl: '', // 分享图标
+      type: '', // 分享类型,music、video或link，不填默认为link
+      dataUrl: '', // 如果type是music或video，则要提供数据链接，默认为空
+      success: function () {
+        // 用户确认分享后执行的回调函数
+        alert(2)
+      },
+      cancel: function () {
+        // 用户取消分享后执行的回调函数
+        alert(3)
+      }
+    })
   },
   computed: {},
   methods: {

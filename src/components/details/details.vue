@@ -3,7 +3,7 @@
     <div class="show-detail">
           <div class="title" v-if="detailList.length">
             <my-title :title="'项目介绍'"></my-title>
-            <router-link tag="div" :to="'/exportPage/' + id" class="export-img"><img :src="exportImg" alt=""></router-link>
+            <router-link tag="div" :to="{path:'/exportPage',query: {id: `${id}`}}" class="export-img"><img :src="exportImg" alt=""></router-link>
           </div>
           <scroll ref="scroll" :beforeScroll="true" @beforeScroll="beforeScroll" :pullup="pullup" class="list" :data="detailList">
             <div class="detail-list">
@@ -251,7 +251,7 @@
         isShowHuxing: false,
         msgIsShow: false,
         userMsg: [],
-        id: this.$route.params.id,
+        id: this.$route.query.id,
         textarea: '',
         text: '',
         confirmBtnText: '确定',
@@ -337,7 +337,7 @@
       },
       confirmClear() {
         if (this.text === '正在整理此项目数据') {
-          window.location.href = '/remmcondlist'
+          window.location.href = '/recommendList'
         }
       },
       beforeScroll() {

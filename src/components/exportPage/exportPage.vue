@@ -5,10 +5,11 @@
     </div>
     <scroll ref="scroll" class="list" :data="detailList">
       <div class="detail-list">
-        <div class="detail-child" v-if="detailList.length" id="htmlToImg">
+        <div class="detail-child" v-if="detailList.length" ref="htmlToImg">
           <div v-for="item in detailList">
             <div class="slider-wrapper" v-if="item.home_page != null ? true : false">
-              <img  :src="'http://sofmanager.fangsir007.com/image/' + item.home_page[0]" alt="">
+              <img crossOrigin="anonymous" :src="require('common/image/xdlzzhutu1_meitu_1.jpg')" alt="">
+              <!-- <img crossOrigin="anonymous" :src="'http://sofmanager.fangsir007.com/image/' + item.home_page[0]" alt=""> -->
             </div>
             <div class="item-title">
               <div class="item-addr">
@@ -88,7 +89,8 @@
                 </div>
               </div>
               <div class="photo-list" v-for="(photoItem, index) in item.property_album">
-                <img  @load="loadImage" :src="'http://sofmanager.fangsir007.com/image/' + photoItem" alt="">
+                <img crossOrigin="anonymous" :src="require('common/image/xdlzzhutu1_meitu_1.jpg')" alt="">
+                <!-- <img crossOrigin="anonymous" @load="loadImage" :src="'http://sofmanager.fangsir007.com/image/' + photoItem" alt=""> -->
               </div>
             </div>
             <div class="item-photo" v-if="item.huxing_img != null ? (item.huxing_img.length >= 1 ? true : false) : false">
@@ -98,7 +100,8 @@
                 </div>
               </div>
               <div class="photo-list" v-for="(huItem, index) in item.huxing_img" v-if="item.huxing_img != null ? true : false">
-                <img @load="loadImage"   :src="'http://sofmanager.fangsir007.com/image/' + huItem" alt="">
+                <img crossOrigin="anonymous" :src="require('common/image/xdlzzhutu1_meitu_1.jpg')" alt="">
+                <!-- <img crossOrigin="anonymous" @load="loadImage"   :src="'http://sofmanager.fangsir007.com/image/' + huItem" alt=""> -->
               </div>
             </div>
           </div>
@@ -115,16 +118,17 @@
   import Scroll from 'base/scroll/scroll'
   import Loading from 'base/loading/loading'
   import MyTitle from 'base/title/title'
+  import wx from 'wx'
   import { getProjectDetail } from 'api/detail'
   export default {
     data() {
       return {
         exportImg: require('common/image/export.png'),
-        isToImg: true,
+        isToImg: false,
         isToImgTitle: '正在生成图片,生成成功之后长按图片保存！',
         detailList: [],
         heartImg: require('common/image/heart_07.png'),
-        id: this.$route.params.id
+        id: this.$route.query.id
       }
     },
     components: {
@@ -133,10 +137,11 @@
       MyTitle
     },
     created() {
+      console.log(wx)
       this._getDetail()
     },
     methods: {
-      consoleHtml2canvas () {
+      /* consoleHtml2canvas () {
         const self = this
         const todom = document.getElementById('exportImg')
         const shareContent = document.getElementById('htmlToImg') // 需要截图的包裹的（原生的）DOM 对象
@@ -183,13 +188,13 @@
             }, 2000)
           }
         })
-      },
+      }, */
       loadImage() {
         if (!this.checkloaded) {
           this.checkloaded = true
-          const self = this
+          // const self = this
           setTimeout(function() {
-            self.consoleHtml2canvas()
+            // self.consoleHtml2canvas()
           }, 4000)
         }
         this.$refs.scroll.refresh()
