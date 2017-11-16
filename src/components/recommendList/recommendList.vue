@@ -86,7 +86,7 @@
                 <li v-for="(item, index) in showSelectList" :class="[active === index ? 'active': '']" @click="getTypeList(item, index)">{{item.name}}</li>
               </ul>
             </div>
-            <recommend-list :projectList="projectList"></recommend-list>
+            <recommend-list @buryingPoint="buryingPoint" :projectList="projectList"></recommend-list>
             <loading v-show="hasMore" title=""></loading>
             <div v-show="!hasMore" class="no-result-wrapper">
               <p>{{noResultWrapper}}</p>
@@ -127,6 +127,8 @@ import Scroll from 'base/scroll/scroll'
 import RecommendList from 'base/recommend-list/recommend-list'
 import PopBox from 'base/pop-box/pop-box'
 import Banner from 'base/banner/banner'
+import TYPE from 'common/js/buryingpointType'
+import { addLog } from 'api/buryingpoint'
 export default {
   components: {
     Slider,
@@ -206,6 +208,15 @@ export default {
   },
   computed: {},
   methods: {
+    // 埋点
+    buryingPoint () {
+      console.log(window.USERMSG)
+      addLog(TYPE.PROJECT, '', TYPE.PROJECTIMG, TYPE.PROJECTDETAIL, window.USERMSG).then(res => {
+        console.log(res)
+      })
+      console.log(TYPE)
+      // console.log(2)
+    },
     loadImage() {
       if (!this.checkloaded) {
         this.checkloaded = true

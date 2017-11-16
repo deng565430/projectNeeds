@@ -2,25 +2,25 @@
   <div>
     <div class="project-list" v-if="projectList.length">
         <ul>
-          <li class="item" v-for="item in projectList">
-            <router-link tag="div" class="item-list" :to="'/detail/' + item.id ">
+          <li @click="projectDetail(item.id)" :key="index"class="item" v-for="(item, index) in projectList">
+            <div tag="div" class="item-list" >
               <div class="item-img">
                 <div class="item-new">
                   <img v-lazy="'http://sofmanager.fangsir007.com/image/' + item.list_chart">
                 </div>
               </div>
-            </router-link>
+            </div>
             <div class="item-right">
-              <router-link :to="'/detail/' + item.id " class="item-center">
+              <div class="item-center">
                 <ul>
                   <li>{{item.project_name}}</li>
                   <li>{{item.district}}</li>
                   <li>{{item.area}} | {{item.type}}</li>
                   <li>{{item.commission}} (个人到手税前佣金)</li>
                 </ul>
-              </router-link>
+              </div>
               <div class="cen-par-right">
-                <a @touchstart="linkTo(item.id)" class="cen-right">
+                <a @click.stop="linkTo(item.id)" class="cen-right">
                   报 备
                 </a>
               </div>
@@ -31,7 +31,7 @@
   </div>
 </template>
 
-<script type="text/ecmascript-6">
+<script>
   export default {
     props: {
       projectList: {
@@ -41,7 +41,13 @@
     },
     methods: {
       linkTo(id) {
+        this.$emit('buryingPoint')
+        console.log(1)
         window.location = '/recommend?id=' + id
+      },
+      projectDetail (id) {
+        this.$emit('buryingPoint')
+        this.$router.push('/detail/' + id)
       }
     }
   }
