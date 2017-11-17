@@ -11,7 +11,7 @@ export const main = {
   },
 
   // 绘制dom 元素，生成截图canvas
-  htmlToCanvas(html2canvas, Canvas2Image, dom, addDom) {
+  htmlToCanvas(html2canvas, dom) {
     var width = dom.offsetWidth  // 获取(原生）dom 宽度
     var height = dom.offsetHeight // 获取(原生）dom 高
 
@@ -43,9 +43,17 @@ export const main = {
         var errdataUrl = true
       }
       if (!errdataUrl) {
-        dataUrl = null
-        addDom.innerHTML = ''
-        addDom.insertBefore(Canvas2Image.convertToPNG(canvas, document.body.clientWidth, height), addDom.childNodes[0])
+        dom.innerHTML = ''
+        var image = new Image()
+        image.crossOrigin = ''
+        image.src = dataUrl
+        console.log(document.body.clientWidth)
+        image.width = document.body.clientWidth
+        image.height = height
+        dom.insertBefore(image, dom.childNodes[0])
+        return true
+      } else {
+        return false
       }
     })
   }

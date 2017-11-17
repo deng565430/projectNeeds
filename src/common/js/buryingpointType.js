@@ -10,5 +10,7 @@ export default {
   // 项目详情
   'PROJECTDETAIL': 'P017',
   // 项目详情按钮
-  'PROJECTDETAILBTN': 'B020'
+  'PROJECTDETAILBTN': 'B020',
+  // 我要报备页面
+  'BAOBEIPAGE': 'P018'
 }

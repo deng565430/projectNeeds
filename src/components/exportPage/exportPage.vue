@@ -8,8 +8,7 @@
         <div class="detail-child" v-if="detailList.length" ref="htmlToImg">
           <div v-for="item in detailList">
             <div class="slider-wrapper" v-if="item.home_page != null ? true : false">
-              <img crossOrigin="anonymous" :src="require('common/image/xdlzzhutu1_meitu_1.jpg')" alt="">
-              <!-- <img crossOrigin="anonymous" :src="'http://sofmanager.fangsir007.com/image/' + item.home_page[0]" alt=""> -->
+              <img :src="'http://sofmanager.fangsir007.com/image/' + item.home_page[0]" alt="">
             </div>
             <div class="item-title">
               <div class="item-addr">
@@ -89,8 +88,7 @@
                 </div>
               </div>
               <div class="photo-list" v-for="(photoItem, index) in item.property_album">
-                <img crossOrigin="anonymous" :src="require('common/image/xdlzzhutu1_meitu_1.jpg')" alt="">
-                <!-- <img crossOrigin="anonymous" @load="loadImage" :src="'http://sofmanager.fangsir007.com/image/' + photoItem" alt=""> -->
+                <img @load="loadImage" :src="'http://sofmanager.fangsir007.com/image/' + photoItem" alt="">
               </div>
             </div>
             <div class="item-photo" v-if="item.huxing_img != null ? (item.huxing_img.length >= 1 ? true : false) : false">
@@ -100,8 +98,7 @@
                 </div>
               </div>
               <div class="photo-list" v-for="(huItem, index) in item.huxing_img" v-if="item.huxing_img != null ? true : false">
-                <img crossOrigin="anonymous" :src="require('common/image/xdlzzhutu1_meitu_1.jpg')" alt="">
-                <!-- <img crossOrigin="anonymous" @load="loadImage"   :src="'http://sofmanager.fangsir007.com/image/' + huItem" alt=""> -->
+                <img @load="loadImage"   :src="'http://sofmanager.fangsir007.com/image/' + huItem" alt="">
               </div>
             </div>
           </div>
@@ -118,8 +115,9 @@
   import Scroll from 'base/scroll/scroll'
   import Loading from 'base/loading/loading'
   import MyTitle from 'base/title/title'
-  import wx from 'wx'
+  // import { main } from 'common/js/canvasToimg'
   import { getProjectDetail } from 'api/detail'
+  import { wechatlib } from '../../config/wxJDK'
   export default {
     data() {
       return {
@@ -137,7 +135,8 @@
       MyTitle
     },
     created() {
-      console.log(wx)
+      // console.log(this.wx)
+      // console.log(main)
       this._getDetail()
     },
     methods: {
@@ -197,7 +196,7 @@
             // self.consoleHtml2canvas()
           }, 4000)
         }
-        this.$refs.scroll.refresh()
+        // this.$refs.scroll.refresh()
       },
       _getDetail() {
         getProjectDetail(this.id).then(res => {
@@ -211,7 +210,48 @@
             this.sliderImg = data.home_page
             this.phone = data.phone
             this.title = data.project_name
+            document.title = this.title
+            console.log(document.title)
+            this.homeImgUrl = 'http://sofmanager.fangsir007.com/image/' + data.home_page[0]
             this.detailList.push(data)
+            this._wxconfig()
+            /* setTimeout(() => {
+              main.htmlToCanvas(window.html2canvas, this.$refs.htmlToImg)
+              this.$refs.scroll.refresh()
+            }, 3000) */
+          }
+        })
+      },
+      async _wxconfig () {
+        const uri = window.location.pathname + window.location.search
+        await wechatlib(this, uri)
+        const link = window.location.href
+        const self = this
+        self.wx.ready(function() {
+          self.wx.onMenuShareTimeline({
+            title: self.title, // 分享标题
+            link: link, // 分享链接，该链接域名或路径必须与当前页面对应的公众号JS安全域名一致
+            imgUrl: self.homeImgUrl, // 分享图标
+            success: function (res) {
+              console.dir('success', res)
+            },
+            cancel: function (res) {
+              console.dir('cancel', res)
+            }
+          })
+        })
+        self.wx.onMenuShareAppMessage({
+          title: self.title, // 分享标题
+          desc: '小区品质非常的好，在此生活享受进则安逸，出则繁华的生活。', // 分享描述
+          link: link, // 分享链接，该链接域名或路径必须与当前页面对应的公众号JS安全域名一致
+          imgUrl: self.homeImgUrl, // 分享图标
+          type: '', // 分享类型,music、video或link，不填默认为link
+          dataUrl: '', // 如果type是music或video，则要提供数据链接，默认为空
+          success: function (res) {
+            console.dir('success', res)
+          },
+          cancel: function (res) {
+            console.dir('cancel', res)
           }
         })
       }
@@ -256,6 +296,9 @@
         background: #eee
         .detail-child
           background: #eee
+          img
+            height: 100%
+            width: 100%
       .slider-wrapper
         position: relative
         width: 100%

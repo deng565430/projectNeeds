@@ -224,7 +224,7 @@
           </div>
           <div class="button-phone" v-if="detailList.length">
             <a class="btn btn-danger" :href="'tel:' + phone"><span><i class="icon-phone"></i>  联系人电话</span></a>
-            <a class="btn btn-success" :href="'/recommend?id=' + id"><span><i class="icon-report"></i>  我要报备</span></a>
+            <a class="btn btn-success" @click.prevent="addLog(id)" ><span><i class="icon-report"></i>  我要报备</span></a>
           </div>
     </div>
   </transition>
@@ -235,6 +235,8 @@
   import confirm from 'base/confirm/confirm'
   import Loading from 'base/loading/loading'
   import MyTitle from 'base/title/title'
+  import TYPE from 'common/js/buryingpointType'
+  import { addLog } from 'api/buryingpoint'
   import { getProjectDetail, getCommentlist, addComment } from 'api/detail'
   export default {
     data() {
@@ -271,6 +273,12 @@
       this._getCommentlist()
     },
     methods: {
+      addLog (id) {
+        addLog(TYPE.PROJECTDETAIL, '', TYPE.PROJECTDETAILBTN, TYPE.BAOBEIPAGE, window.USERMSG).then(res => {
+          console.log(res)
+        })
+        window.location.href = '/recommend?id=' + id
+      },
       loadImage() {
         if (!this.checkloaded) {
           this.checkloaded = true

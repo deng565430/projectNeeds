@@ -41,12 +41,11 @@
     },
     methods: {
       linkTo(id) {
-        this.$emit('buryingPoint')
-        console.log(1)
+        this.$emit('buryingPoint', true)
         window.location = '/recommend?id=' + id
       },
       projectDetail (id) {
-        this.$emit('buryingPoint')
+        this.$emit('buryingPoint', false)
         // this.$router.push('/detail/' + id)
         this.$router.push({path: '/detail', query: {id: id}})
       }

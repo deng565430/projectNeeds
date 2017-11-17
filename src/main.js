@@ -8,6 +8,7 @@ import routes from './router'
 import { routerMode } from './config/env'  // 打包项目要把mode: history注释掉
 import fastclick from 'fastclick'
 import VueLazyload from 'vue-lazyload'
+import wx from 'wx'
 
 /* eslint-disble no-unused-vars */
 import 'common/js/html2canvas.js'
@@ -19,6 +20,7 @@ import 'common/stylus/index.styl'
 fastclick.attach(document.body)
 
 Vue.use(VueRouter)
+Vue.prototype.wx = wx
 
 const router = new VueRouter({
   routes,
