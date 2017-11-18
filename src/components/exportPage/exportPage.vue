@@ -223,6 +223,7 @@
         })
       },
       async _wxconfig () {
+        console.log(window.location.href.split('#'))
         const uri = window.location.pathname + window.location.search
         await wechatlib(this, uri)
         const link = window.location.href
