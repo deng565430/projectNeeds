@@ -7,7 +7,6 @@ export function wxconfig(uri) {
 }
 export function wechatlib(self, uri) {
   wxconfig(uri).then(res => {
-    console.log(res)
     if (res.data.data) {
       var data = res.data.data
       self.wx.config({

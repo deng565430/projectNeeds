@@ -105,17 +105,11 @@
         </div>
       </div>
     </scroll>
-    <div class="toimgpromtp" v-if="isToImg">
-      <loading title=""></loading>
-      <p>{{isToImgTitle}}</p>
-    </div>
   </div>
 </template>
 <script type="text/babel">
   import Scroll from 'base/scroll/scroll'
-  import Loading from 'base/loading/loading'
   import MyTitle from 'base/title/title'
-  // import { main } from 'common/js/canvasToimg'
   import { getProjectDetail } from 'api/detail'
   import { wechatlib } from '../../config/wxJDK'
   export default {
@@ -123,7 +117,6 @@
       return {
         exportImg: require('common/image/export.png'),
         isToImg: false,
-        isToImgTitle: '正在生成图片,生成成功之后长按图片保存！',
         detailList: [],
         heartImg: require('common/image/heart_07.png'),
         id: this.$route.query.id
@@ -131,72 +124,17 @@
     },
     components: {
       Scroll,
-      Loading,
       MyTitle
     },
     created() {
-      // console.log(this.wx)
-      // console.log(main)
       this._getDetail()
     },
     methods: {
-      /* consoleHtml2canvas () {
-        const self = this
-        const todom = document.getElementById('exportImg')
-        const shareContent = document.getElementById('htmlToImg') // 需要截图的包裹的（原生的）DOM 对象
-        const width = shareContent.offsetWidth // 获取dom 宽度
-        const height = shareContent.offsetHeight // 获取dom 高度
-        const canvas = document.createElement('canvas') // 创建一个canvas节点
-        const scale = 2 // 定义任意放大倍数 支持小数
-        canvas.width = width * scale // 定义canvas 宽度 * 缩放
-        canvas.height = height * scale // 定义canvas高度 *缩放
-        canvas.getContext('2d').scale(scale, scale) // 获取context,设置scale
-        const opts = {
-          scale: scale, // 添加的scale 参数
-          canvas: canvas, // 自定义 canvas
-          logging: false, // 日志开关
-          width: width, // dom 原始宽度
-          height: height // dom 原始高度
-        }
-        window.html2canvas(shareContent, opts).then(function (canvas) {
-          // 或者生成图片库
-          // https://github.com/hongru/canvas2image/blob/master/canvas2image.js
-          try {
-            var dataUrl = canvas.toDataURL('image/png').replace('image/png', 'image/octet-stream')
-          } catch (error) {
-            var errdataUrl = true
-          }
-          if (!errdataUrl) {
-            var image = new Image()
-            image.crossOrigin = ''
-            image.src = dataUrl
-            console.log(document.body.clientWidth)
-            image.width = document.body.clientWidth
-            shareContent.innerHTML = ''
-            shareContent.insertBefore(image, shareContent.childNodes[0])
-            self.isToImgTitle = '生成成功！'
-            setTimeout(function() {
-              self.$refs.scroll.refresh()
-              self.isToImg = false
-            }, 2000)
-          } else {
-            todom.appendChild(canvas)
-            self.isToImgTitle = '您的设备暂不支持！'
-            setTimeout(function() {
-              self.$router.back()
-            }, 2000)
-          }
-        })
-      }, */
       loadImage() {
         if (!this.checkloaded) {
           this.checkloaded = true
-          // const self = this
-          setTimeout(function() {
-            // self.consoleHtml2canvas()
-          }, 4000)
         }
-        // this.$refs.scroll.refresh()
+        this.$refs.scroll.refresh()
       },
       _getDetail() {
         getProjectDetail(this.id).then(res => {
@@ -215,18 +153,19 @@
             this.homeImgUrl = 'http://sofmanager.fangsir007.com/image/' + data.home_page[0]
             this.detailList.push(data)
             this._wxconfig()
-            /* setTimeout(() => {
-              main.htmlToCanvas(window.html2canvas, this.$refs.htmlToImg)
-              this.$refs.scroll.refresh()
-            }, 3000) */
           }
         })
       },
       async _wxconfig () {
-        console.log(window.location.href.split('#'))
-        const uri = window.location.pathname + window.location.search
+        console.log(this.detailList)
+        let uri = location.href.split('#')[0]
+        uri = encodeURIComponent(uri)
         await wechatlib(this, uri)
         const link = window.location.href
+        const district = this.detailList[0].district
+        const totalPrice = this.detailList[0].total_price
+        const area = this.detailList[0].area
+        const desc = `${this.title}位于${district}，总价 ${totalPrice} 万起，主力面积：${area}`
         const self = this
         self.wx.ready(function() {
           self.wx.onMenuShareTimeline({
@@ -243,7 +182,7 @@
         })
         self.wx.onMenuShareAppMessage({
           title: self.title, // 分享标题
-          desc: '小区品质非常的好，在此生活享受进则安逸，出则繁华的生活。', // 分享描述
+          desc: desc, // 分享描述
           link: link, // 分享链接，该链接域名或路径必须与当前页面对应的公众号JS安全域名一致
           imgUrl: self.homeImgUrl, // 分享图标
           type: '', // 分享类型,music、video或link，不填默认为link
