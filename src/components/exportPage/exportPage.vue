@@ -1,7 +1,7 @@
 <template>
   <div class="show-detail">
     <div class="title" id="dom" v-if="detailList.length">
-      <my-title :title="'项目介绍'"></my-title>
+      <my-title :title="'房先生全民经纪人'"></my-title>
     </div>
     <scroll ref="scroll" class="list" :data="detailList">
       <div class="detail-list">

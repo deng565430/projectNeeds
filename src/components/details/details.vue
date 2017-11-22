@@ -3,7 +3,7 @@
     <div class="show-detail">
           <div class="title" v-if="detailList.length">
             <my-title :title="'项目介绍'"></my-title>
-            <router-link tag="div" :to="{path:'/exportPage',query: {id: `${id}`}}" class="export-img"><img :src="exportImg" alt=""></router-link>
+            <div @click="toExprot"  class="export-img"><img :src="exportImg" alt=""></br>生成客户版</div>
           </div>
           <scroll ref="scroll" :beforeScroll="true" @beforeScroll="beforeScroll" :pullup="pullup" class="list" :data="detailList">
             <div class="detail-list">
@@ -273,6 +273,12 @@
       this._getCommentlist()
     },
     methods: {
+      // 分享页面
+      toExprot () {
+        // :to="{path:'/exportPage',query: {id: `${id}`}}"
+        window.location.href = `/exportPage?id=${this.id}`
+      },
+      // 添加打点
       addLog (id) {
         addLog(TYPE.PROJECTDETAIL, '', TYPE.PROJECTDETAILBTN, TYPE.BAOBEIPAGE, window.USERMSG).then(res => {
           console.log(res)
@@ -408,6 +414,11 @@
         position: absolute
         top: 8px
         right: 16px
+        font-size: 12px
+        height: 37px
+        overflow: hidden
+        line-height: 16px
+        text-align: center
         img
           width: 24px
     .list
