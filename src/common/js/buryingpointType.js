@@ -1,3 +1,4 @@
+// 打点页面及按钮规则
 export default {
   // 项目需求一手房销售入口页面
   'HOME': 'BOO2',
@@ -11,6 +12,18 @@ export default {
   'PROJECTDETAIL': 'P017',
   // 项目详情按钮
   'PROJECTDETAILBTN': 'B020',
+  // 项目详情分享按钮
+  'PROJECTEXPORT': 'B062',
+  // 项目分享页面
+  'PROJECTEXPORTPAGE': 'P037',
+  // 项目分享给朋友成功
+  'PROJECTTOFRIEND': 'B065',
+  // 项目分享给朋友失败
+  'PROJECTTOFRIENDBAD': 'B066',
+  // 项目分享到朋友圈成功
+  'PROJECTTOCIRCLEOFFRIENDS': 'B067',
+  // 项目分享到朋友圈失败
+  'PROJECTTOCIRCLEOFFRIENDSBAD': 'B068',
   // 我要报备页面
   'BAOBEIPAGE': 'P018'
 }

@@ -63,21 +63,21 @@
                 </span>
                 <div v-if="item.regional_introduction != null">
                   <h3>区域介绍</h3>
-                  <p v-for="regItem in item.regional_introduction">{{regItem}}</p>
+                  <p :key="index" v-for="(regItem, index) in item.regional_introduction">{{regItem}}</p>
                 </div>
                 <span>
                   <img :src="heartImg" alt="">
                 </span>
                 <div v-if="item.project_introduction != null">
                   <h3>项目介绍</h3>
-                  <p v-for="proItem in item.project_introduction">{{proItem}}</p>
+                  <p :key="index" v-for="(proItem, index) in item.project_introduction">{{proItem}}</p>
                 </div>
                 <span>
                   <img :src="heartImg" alt="">
                 </span>
                 <div>
                   <h3 v-if="item.supporting_facilities != null ? true : false">配套设施</h3>
-                  <p class="sup-sty" v-if="item.supporting_facilities != null && item.supporting_facilities.length >= 1" v-for="supItem in item.supporting_facilities">{{supItem}}</p>
+                  <p :key="index" class="sup-sty" v-if="item.supporting_facilities != null && item.supporting_facilities.length >= 1" v-for="(supItem, index) in item.supporting_facilities">{{supItem}}</p>
                 </div>
               </div>
             </div>
@@ -110,6 +110,8 @@
 <script type="text/babel">
   import Scroll from 'base/scroll/scroll'
   import MyTitle from 'base/title/title'
+  import TYPE from 'common/js/buryingpointType'
+  import { addLog } from 'api/buryingpoint'
   import { getProjectDetail } from 'api/detail'
   import { wechatlib } from '../../config/wxJDK'
   export default {
@@ -157,15 +159,27 @@
         })
       },
       async _wxconfig () {
-        console.log(this.detailList)
+        const link = window.location.href
+        const district = this.detailList[0].district ? this.detailList[0].district : ''
+        const totalPrice = this.detailList[0].total_price ? this.detailList[0].total_price : ''
+        const area = this.detailList[0].area ? this.detailList[0].area : ''
+        const desc = `${this.title}位于${district}，总价 ${totalPrice} 万起，主力面积：${area}`
+        var metaEl = document.getElementsByTagName('meta')
+        var metaItems = [...metaEl]
+        metaItems.filter((item, index) => {
+          if (item.getAttribute('itemprop') === 'description') {
+            item.content = desc
+          }
+          if (item.getAttribute('itemprop') === 'name') {
+            item.content = this.title
+          }
+          if (item.getAttribute('itemprop') === 'image') {
+            item.content = this.homeImgUrl
+          }
+        })
         let uri = location.href.split('#')[0]
         uri = encodeURIComponent(uri)
         await wechatlib(this, uri)
-        const link = window.location.href
-        const district = this.detailList[0].district
-        const totalPrice = this.detailList[0].total_price
-        const area = this.detailList[0].area
-        const desc = `${this.title}位于${district}，总价 ${totalPrice} 万起，主力面积：${area}`
         const self = this
         self.wx.ready(function() {
           self.wx.onMenuShareTimeline({
@@ -174,9 +188,14 @@
             imgUrl: self.homeImgUrl, // 分享图标
             success: function (res) {
               console.dir('success', res)
+              addLog(TYPE.PROJECTEXPORTPAGE, '', TYPE.PROJECTTOFRIEND, '', window.USERMSG).then(res => {
+                console.log(res)
+              })
             },
             cancel: function (res) {
-              console.dir('cancel', res)
+              addLog(TYPE.PROJECTEXPORTPAGE, '', TYPE.PROJECTTOFRIENDBAD, '', window.USERMSG).then(res => {
+                console.log(res)
+              })
             }
           })
         })
@@ -185,13 +204,16 @@
           desc: desc, // 分享描述
           link: link, // 分享链接，该链接域名或路径必须与当前页面对应的公众号JS安全域名一致
           imgUrl: self.homeImgUrl, // 分享图标
-          type: '', // 分享类型,music、video或link，不填默认为link
-          dataUrl: '', // 如果type是music或video，则要提供数据链接，默认为空
           success: function (res) {
             console.dir('success', res)
+            addLog(TYPE.PROJECTEXPORTPAGE, '', TYPE.PROJECTTOCIRCLEOFFRIENDS, '', window.USERMSG).then(res => {
+              console.log(res)
+            })
           },
           cancel: function (res) {
-            console.dir('cancel', res)
+            addLog(TYPE.PROJECTEXPORTPAGE, '', TYPE.PROJECTTOCIRCLEOFFRIENDSBAD, '', window.USERMSG).then(res => {
+              console.log(res)
+            })
           }
         })
       }

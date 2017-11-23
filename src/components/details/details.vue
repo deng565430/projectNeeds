@@ -275,8 +275,20 @@
     methods: {
       // 分享页面
       toExprot () {
+        addLog(TYPE.PROJECTDETAIL, '', TYPE.PROJECTEXPORT, TYPE.PROJECTEXPORTPAGE, window.USERMSG).then(res => {
+          console.log(res)
+        })
+        var u = navigator.userAgent
+        var isAndroid = u.indexOf('Android') > -1 || u.indexOf('Adr') > -1 // android终端
+        var isiOS = !!u.match(/\(i[^;]+;( U;)? CPU.+Mac OS X/) // ios终端
+        console.log(isAndroid)
+        console.log(isiOS)
+        if (isiOS) {
+          window.location.href = `/exportPage?id=${this.id}`
+        } else {
+          this.$router.push({path: '/exportPage', query: {id: `${this.id}`}})
+        }
         // :to="{path:'/exportPage',query: {id: `${id}`}}"
-        window.location.href = `/exportPage?id=${this.id}`
       },
       // 添加打点
       addLog (id) {
