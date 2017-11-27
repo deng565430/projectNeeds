@@ -223,7 +223,7 @@
            <confirm ref="confirm" @confirm="confirmClear" @cancel="confirmClear" :text="text" :confirmBtnText="confirmBtnText"></confirm>
           </div>
           <div class="button-phone" v-if="detailList.length">
-            <a class="btn btn-danger" :href="'tel:' + phone"><span><i class="icon-phone"></i>  联系人电话</span></a>
+            <a class="btn btn-danger" :href="'tel:' + phone"><span><i class="icon-phone"></i>  对接人电话</span></a>
             <a class="btn btn-success" @click.prevent="addLog(id)" ><span><i class="icon-report"></i>  我要报备</span></a>
           </div>
     </div>
