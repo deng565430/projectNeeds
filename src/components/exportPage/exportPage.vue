@@ -13,7 +13,6 @@
             <div class="item-title">
               <div class="item-addr">
                 <h3 class="pink">{{title}} </h3>
-                <span>{{item.address}}</span>
               </div>
             </div>
             <div class="item-sell" v-if="item.selling_point != null ? (item.selling_point.length > 1 ? true : false) : false">
@@ -52,8 +51,10 @@
                 <h3>楼盘信息</h3>
                 <p v-if="item.project_name != null">楼盘名称：{{item.project_name}}</p>
                 <p v-if="item.unit_price != null">单价：{{item.unit_price}}</p>
+                <p v-if="item.hux != null">户型：{{item.hux}}</p>
                 <p v-if="item.area != null">面积：{{item.area}}</p>
                 <p v-if="item.total_price != null">总价：{{item.total_price}}万起</p>
+                <p v-if="item.down_pays != null">首付比例：{{item.down_pays}}万起</p>
                 <p v-if="item.delivery_time != null">交房时间：{{item.delivery_time}}</p>
                 <p v-if="item.renovation != null">交房标准：{{item.renovation}}</p>
               </div>
@@ -272,7 +273,7 @@
         position: relative
         width: 100%
         margin: 0 auto
-        height: 80px
+        height: 30px
       .item-addr
         position: absolute
         top: -30px
@@ -283,7 +284,6 @@
         border-radius: 10px
         background: white
         text-align: center
-        height: 100%
         overflow: hidden
         padding: 4%
         span

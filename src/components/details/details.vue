@@ -1,6 +1,9 @@
 <template>
   <transition name="detail">
     <div class="show-detail">
+          <div class="mengceng-img" v-if="mengcengFlag">
+            <img :src="mengcengImg" alt="" @click="hideMengceng">
+          </div>
           <div class="title" v-if="detailList.length">
             <my-title :title="'项目介绍'"></my-title>
             <div @click="toExprot"  class="export-img"><img :src="exportImg" alt=""></br>生成客户版</div>
@@ -88,6 +91,17 @@
                       </div>
                     </div>
                   </div>
+                  <div class="item-sell" v-if="item.policies != null && item.policies.length > 0">
+                    <div>
+                      <div class="pro-sell">
+                        政策法规
+                      </div>
+                      <div class="item-sell-child" v-for="poItem in item.policies">
+                        <span class="sell-l"><i class="icon-star"></i></span>
+                        <span class="sell-r">{{poItem}}</span>
+                      </div>
+                    </div>
+                  </div>
                   <div class="item-info">
                     <div class="info-title" ref="infoDesc">
                       <div>
@@ -98,8 +112,10 @@
                       <h3>楼盘信息</h3>
                       <p v-if="item.project_name != null">楼盘名称：{{item.project_name}}</p>
                       <p v-if="item.unit_price != null">单价：{{item.unit_price}}</p>
+                      <p v-if="item.hux != null">户型：{{item.hux}}</p>
                       <p v-if="item.area != null">面积：{{item.area}}</p>
                       <p v-if="item.total_price != null">总价：{{item.total_price}}万起</p>
+                      <p v-if="item.down_pays != null">首付比例：{{item.down_pays}}万起</p>
                       <p v-if="item.delivery_time != null">交房时间：{{item.delivery_time}}</p>
                       <p v-if="item.renovation != null">交房标准：{{item.renovation}}</p>
                     </div>
@@ -238,9 +254,12 @@
   import TYPE from 'common/js/buryingpointType'
   import { addLog } from 'api/buryingpoint'
   import { getProjectDetail, getCommentlist, addComment } from 'api/detail'
+  import { getFirstVisited } from 'api/getFirstVisited'
   export default {
     data() {
       return {
+        mengcengImg: require('common/image/mengceng001.jpg'),
+        mengcengFlag: false,
         exportImg: require('common/image/export.png'),
         pullup: true,
         detailList: [],
@@ -269,10 +288,21 @@
       MyTitle
     },
     created() {
+      // 判断是否是首次访问
+      getFirstVisited('recommendListDetail').then(res => {
+        console.log(res.data)
+        if (res.data.data === 0) {
+          this.mengcengFlag = true
+        }
+      })
       this._getDetail()
       this._getCommentlist()
     },
     methods: {
+      // 点击隐藏蒙层
+      hideMengceng () {
+        this.mengcengFlag = false
+      },
       // 分享页面
       toExprot () {
         addLog(TYPE.PROJECTDETAIL, '', TYPE.PROJECTEXPORT, TYPE.PROJECTEXPORTPAGE, window.USERMSG).then(res => {
@@ -406,12 +436,24 @@
   
   .show-detail
     position: fixed
+    height: 100%
     width: 100%
     bottom: 0
     height: 100%
     z-index: 10000
     background: #eee
     font-size: $font-size-medium
+    .mengceng-img
+      position: fixed
+      z-index: 999999
+      top: 0
+      left: 0
+      right: 0
+      bottom: 0
+      width: 100%
+      img
+        width: 100%
+        height: 100%
     .title
       position: fixed
       z-index: 10002
