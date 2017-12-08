@@ -11,7 +11,6 @@ import VueLazyload from 'vue-lazyload'
 import wx from 'wx'
 
 /* eslint-disble no-unused-vars */
-import 'common/js/html2canvas.js'
 import 'common/js/usermsg.js'
 
 import 'common/stylus/index.styl'

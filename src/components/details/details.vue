@@ -35,7 +35,7 @@
                       </div>
                     </div>
                     <div v-if="item.commission_junction != null" class="comm-b">
-                      <span class="l">结佣标准</span>
+                      <span class="l">结佣说明</span>
                       <div class="r">
                         <p v-for="commItem in item.commission_junction">{{commItem}}</p>
                       </div>
