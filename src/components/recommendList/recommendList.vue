@@ -8,21 +8,21 @@
                     <div  class="pop-city-height">
                       <scroll class="pop-city-scroll" v-if="provincelist.length" :data="provincelist">
                         <ul>
-                          <li v-for="(item, index) in provincelist" :class="[provinceActive === item.name ? 'cityActive': '']" @touchstart.prevent="selectProvince(item, index)">{{item.name}}</li>
+                          <li :key="item.name" v-for="(item, index) in provincelist" :class="[provinceActive === item.name ? 'cityActive': '']" @touchstart.prevent="selectProvince(item, index)">{{item.name}}</li>
                         </ul>
                       </scroll>
                     </div>
                     <div  class="pop-city-height">
                       <scroll class="pop-city-scroll" v-if="childCitylist.length" :data="childCitylist">
                         <ul ref="citys">
-                          <li v-for="(item, index) in childCitylist" :class="[cityActive === item ? 'cityActive': '']" @touchstart.prevent="selectCity(item, index)">{{item}}</li>
+                          <li :key="item.name" v-for="(item, index) in childCitylist" :class="[cityActive === item.name ? 'cityActive': '']" @touchstart.prevent="selectCity(item, index)">{{item.name}}</li>
                         </ul>
                       </scroll>
                     </div>
                     <div  class="pop-city-height">
                       <scroll class="pop-city-scroll" ref="scrollCity" v-if="districtList.length" :data="districtList">
                         <ul ref="district">
-                          <li ref="districtList" v-for="(item, index) in districtList" :class="[districtlistActive === item ? 'cityActive': '']" @touchstart.prevent="selectdistrictlist(item, index)">{{item}}</li>
+                          <li :key="item.name" ref="districtList" v-for="(item, index) in districtList" :class="[districtlistActive === item.name ? 'cityActive': '']" @touchstart.prevent="selectdistrictlist(item, index)">{{item.name}}</li>
                         </ul>
                       </scroll>
                     </div>
@@ -41,7 +41,7 @@
       </div>
       <div class="scroll-top-show" ref="typeListClone">
         <ul class="type-list">
-          <li v-for="(item, index) in showSelectList" :class="[active === index ? 'active': '']" @click="getTypeList(item, index, true)">{{item.name}}</li>
+          <li v-for="(item, index) in showSelectList" :class="[active === index ? 'active': '']" @click.stop="getTypeList(item, index, true)">{{item.name}}</li>
         </ul>
        </div>
       <pop-box v-if="showTypeList" :posTop="clientTop" :typeList="typeList" @showPopBox="showPopBox">
@@ -209,6 +209,7 @@ export default {
   computed: {},
   methods: {
     addLog (id) {
+      console.log(id)
       this.buryingPoint()
       this.$router.push({
         path: '/detail',
@@ -224,8 +225,6 @@ export default {
       } else {
         addLog(TYPE.PROJECT, '', TYPE.PROJECTIMG, TYPE.PROJECTDETAIL, window.USERMSG)
       }
-      console.log(TYPE)
-      // console.log(2)
     },
     loadImage() {
       if (!this.checkloaded) {
@@ -354,7 +353,7 @@ export default {
         this.typeList = this.priceList
       } else if (index === 2) {
         this.typeList = this.typeListModel
-      } else {
+      } else if (index === 0) {
         this._getProvincelist()
         this.showTypeList = false
         setTimeout(() => {
@@ -381,18 +380,18 @@ export default {
       this._getCitylist()
     },
     selectCity(item, index) {
-      this.showSelectList[this.active].name = item === '全部' ? this.provinceActive : item
-      this.cityActive = item
-      this.city = item === '全部' ? 'all' : item
+      this.showSelectList[this.active].name = item.name === '全部' ? this.provinceActive : item.name
+      this.cityActive = item.name
+      this.city = item.provinceType === '全部' ? 'all' : item.provinceType
       this.districtList = []
       this.district = 'all'
       this.districtlistActive = ''
       this._getdistrictlist()
     },
     selectdistrictlist(item, index) {
-      this.showSelectList[this.active].name = item === '全部' ? this.cityActive : item
-      this.districtlistActive = item
-      this.district = item === '全部' ? 'all' : item
+      this.showSelectList[this.active].name = item.name === '全部' ? this.cityActive : item.name
+      this.districtlistActive = item.name
+      this.district = item.provinceType === '全部' ? 'all' : item.provinceType
     },
     selectType(item, index) {
       if (item.pricemax) {
@@ -503,8 +502,8 @@ export default {
         })
         for (let i in res.data.data) {
           this.typeListModel.push({
-            name: res.data.data[i],
-            type: res.data.data[i]
+            name: res.data.data[i].value,
+            type: res.data.data[i].key
           })
         }
       })
@@ -523,19 +522,28 @@ export default {
       getProvincelist().then(res => {
         for (let i in res.data.data) {
           this.provincelist.push({
-            name: res.data.data[i],
-            provinceType: res.data.data[i]
+            name: res.data.data[i].value,
+            provinceType: res.data.data[i].key
           })
         }
       })
     },
     _getCitylist() {
+      console.log(this.province)
       if (this.provinceActive === '全部') {
         return
       }
       getCitylist(this.province).then(res => {
-        this.childCitylist = res.data.data
-        this.childCitylist.unshift('全部')
+        this.childCitylist = [{
+          name: '全部',
+          provinceType: 'all'
+        }]
+        for (let i in res.data.data) {
+          this.childCitylist.push({
+            name: res.data.data[i].value,
+            provinceType: res.data.data[i].key
+          })
+        }
       })
     },
     _getdistrictlist() {
@@ -543,8 +551,16 @@ export default {
         return
       }
       getDistirctlist(this.province, this.city).then(res => {
-        this.districtList = res.data.data
-        this.districtList.unshift('全部')
+        this.districtList = [{
+          name: '全部',
+          provinceType: 'all'
+        }]
+        for (let i in res.data.data) {
+          this.districtList.push({
+            name: res.data.data[i].value,
+            provinceType: res.data.data[i].key
+          })
+        }
       })
     },
     _trim(str) {

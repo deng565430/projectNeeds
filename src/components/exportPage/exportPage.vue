@@ -7,20 +7,20 @@
       <div class="detail-list">
         <div class="detail-child" v-if="detailList.length" ref="htmlToImg">
           <div v-for="item in detailList">
-            <div class="slider-wrapper" v-if="item.home_page != null ? true : false">
-              <img :src="'http://sofmanager.fangsir007.com/image/' + item.home_page[0]" alt="">
+            <div class="slider-wrapper" v-if="item.homePage != null ? true : false">
+              <img :src="'http://sofmanager.fangsir007.com/image/' + item.homePage[0]" alt="">
             </div>
             <div class="item-title">
               <div class="item-addr">
-                <h3 class="pink">{{title}} </h3>
+                <h3 class="pink">{{item.projectName}} </h3>
               </div>
             </div>
-            <div class="item-sell" v-if="item.selling_point != null ? (item.selling_point.length > 1 ? true : false) : false">
+            <div class="item-sell" v-if="item.sellingPoint != null ? (item.sellingPoint.length > 1 ? true : false) : false">
               <div>
                 <div class="pro-sell">
                   项目卖点
                 </div>
-                <div class="item-sell-child" v-for="sellItem in item.selling_point" v-if="sellItem.length > 3">
+                <div class="item-sell-child" v-for="sellItem in item.sellingPoint" v-if="sellItem.length > 3">
                   <span class="sell-l">
                     <i class="icon-star"></i>
                   </span>
@@ -49,56 +49,56 @@
               </div>
               <div class="info-desc">
                 <h3>楼盘信息</h3>
-                <p v-if="item.project_name != null">楼盘名称：{{item.project_name}}</p>
-                <p v-if="item.unit_price != null">单价：{{item.unit_price}}</p>
+                <p v-if="item.projectPame != null">楼盘名称：{{item.projectPame}}</p>
+                <p v-if="item.unitPrice != null">单价：{{item.unitPrice}}</p>
                 <p v-if="item.hux != null">户型：{{item.hux}}</p>
                 <p v-if="item.area != null">面积：{{item.area}}</p>
-                <p v-if="item.total_price != null">总价：{{item.total_price}}万起</p>
-                <p v-if="item.down_pays != null">首付比例：{{item.down_pays}}万起</p>
-                <p v-if="item.delivery_time != null">交房时间：{{item.delivery_time}}</p>
+                <p v-if="item.totalPrice != null">总价：{{item.totalPrice}}万起</p>
+                <p v-if="item.downPays != null">首付比例：{{item.downPays}}万起</p>
+                <p v-if="item.deliveryTime != null">交房时间：{{item.deliveryTime}}</p>
                 <p v-if="item.renovation != null">交房标准：{{item.renovation}}</p>
               </div>
               <div class="info-list">
                 <span>
                   <img :src="heartImg" alt="">
                 </span>
-                <div v-if="item.regional_introduction != null">
+                <div v-if="item.regionalIntroduction != null">
                   <h3>区域介绍</h3>
-                  <p :key="index" v-for="(regItem, index) in item.regional_introduction">{{regItem}}</p>
+                  <p :key="index" v-for="(regItem, index) in item.regionalIntroduction">{{regItem}}</p>
                 </div>
                 <span>
                   <img :src="heartImg" alt="">
                 </span>
-                <div v-if="item.project_introduction != null">
+                <div v-if="item.projectIntroduction != null">
                   <h3>项目介绍</h3>
-                  <p :key="index" v-for="(proItem, index) in item.project_introduction">{{proItem}}</p>
+                  <p :key="index" v-for="(proItem, index) in item.projectIntroduction">{{proItem}}</p>
                 </div>
                 <span>
                   <img :src="heartImg" alt="">
                 </span>
                 <div>
-                  <h3 v-if="item.supporting_facilities != null ? true : false">配套设施</h3>
-                  <p :key="index" class="sup-sty" v-if="item.supporting_facilities != null && item.supporting_facilities.length >= 1" v-for="(supItem, index) in item.supporting_facilities">{{supItem}}</p>
+                  <h3 v-if="item.supportingFacilities != null ? true : false">配套设施</h3>
+                  <p :key="index" class="sup-sty" v-if="item.supportingFacilities != null && item.supportingFacilities.length >= 1" v-for="(supItem, index) in item.supportingFacilities">{{supItem}}</p>
                 </div>
               </div>
             </div>
-            <div class="item-photo" v-if="item.property_album != null ? (item.property_album.length >= 1 ? true : false) : false">
+            <div class="item-photo" v-if="item.propertyAlbum != null ? (item.propertyAlbum.length >= 1 ? true : false) : false">
               <div class="photo-title" ref="infophoto">
                 <div>
                   楼盘效果图
                 </div>
               </div>
-              <div class="photo-list" v-for="(photoItem, index) in item.property_album">
+              <div class="photo-list" v-for="(photoItem, index) in item.propertyAlbum">
                 <img @load="loadImage" :src="'http://sofmanager.fangsir007.com/image/' + photoItem" alt="">
               </div>
             </div>
-            <div class="item-photo" v-if="item.huxing_img != null ? (item.huxing_img.length >= 1 ? true : false) : false">
+            <div class="item-photo" v-if="item.huxingImg != null ? (item.huxingImg.length >= 1 ? true : false) : false">
               <div class="photo-title" ref="infoHuxing">
                 <div>
                   户型图
                 </div>
               </div>
-              <div class="photo-list" v-for="(huItem, index) in item.huxing_img" v-if="item.huxing_img != null ? true : false">
+              <div class="photo-list" v-for="(huItem, index) in item.huxingImg" v-if="item.huxingImg != null ? true : false">
                 <img @load="loadImage"   :src="'http://sofmanager.fangsir007.com/image/' + huItem" alt="">
               </div>
             </div>
@@ -146,15 +146,13 @@
             this.$refs.confirm.show()
             return
           }
-          if (res.data.data) {
-            const data = res.data.data
-            this.sliderImg = data.home_page
-            this.phone = data.phone
-            this.title = data.project_name
+          if (res.status === 200) {
+            this.sliderImg = res.data.data.homePage
+            this.phone = res.data.data.phone
+            this.title = res.data.data.projectName
             document.title = this.title
-            console.log(document.title)
-            this.homeImgUrl = 'http://sofmanager.fangsir007.com/image/' + data.home_page[0]
-            this.detailList.push(data)
+            this.homeImgUrl = 'http://sofmanager.fangsir007.com/image/' + res.data.data.homePage[0]
+            this.detailList.push(res.data.data)
             this._wxconfig()
           }
         })
@@ -162,7 +160,7 @@
       async _wxconfig () {
         const link = window.location.href
         const district = this.detailList[0].district ? this.detailList[0].district : ''
-        const totalPrice = this.detailList[0].total_price ? this.detailList[0].total_price : ''
+        const totalPrice = this.detailList[0].totalPrice ? this.detailList[0].totalPrice : ''
         const area = this.detailList[0].area ? this.detailList[0].area : ''
         const desc = `${this.title}位于${district}，总价 ${totalPrice} 万起，主力面积：${area}`
         var metaEl = document.getElementsByTagName('meta')

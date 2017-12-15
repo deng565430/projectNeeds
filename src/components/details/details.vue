@@ -13,8 +13,8 @@
               <div  v-if="detailList.length">
                 <div v-for="item in detailList">
                   <div class="slider-wrapper">
-                    <slider :styleBottom="'40px'" v-if="item.home_page != null ? true : false">
-                      <div v-for="childItem in item.home_page" v-if="childItem.indexOf('.') > -1">
+                    <slider :styleBottom="'40px'" v-if="item.homePage != null ? true : false">
+                      <div v-for="childItem in item.homePage" v-if="childItem.indexOf('.') > -1">
                         <div>
                           <img class="needsclick" @load="loadImage" :src="'http://sofmanager.fangsir007.com/image/' + childItem">
                         </div>  
@@ -34,10 +34,10 @@
                         <p>{{item.commission}}</p>
                       </div>
                     </div>
-                    <div v-if="item.commission_junction != null" class="comm-b">
+                    <div v-if="item.commissionJunction != null" class="comm-b">
                       <span class="l">结佣说明</span>
                       <div class="r">
-                        <p v-for="commItem in item.commission_junction">{{commItem}}</p>
+                        <p v-for="commItem in item.commissionJunction">{{commItem}}</p>
                       </div>
                     </div>
                   </div>
@@ -53,9 +53,9 @@
                         <span class="butt-color"> 项目对接人</span>
                       </div>
                       <div>
-                        <span class="butt-color">{{item.working_life}} | </span>
+                        <span class="butt-color">{{item.workingLife}} | </span>
                         <span class="butt-color"> 擅长:</span>
-                        <span  class="butt-color"v-for="gAtItem in item.good_at"> {{gAtItem}}</span>
+                        <span  class="butt-color"> {{item.goodAt}}</span>
                       </div>
                       <div v-if="item.label != null ? (item.label.length > 1 ? true : false) : false">
                         <span class="butt-color" :class="[index % 2 === 0 ? 'butt-first-color' : 'butt-second-color']" v-for="(labelItem, index) in item.label"><i class="icon-gou ic-color">
@@ -65,16 +65,16 @@
                     <div v-if="item.motto != null" class="item-motto">
                       <p>{{item.motto}}</p>
                     </div>
-                    <div v-if="item.self_evaluation != null" class="item-desc">
-                      <p>{{item.self_evaluation}}</p>
+                    <div v-if="item.selfEvaluation != null" class="item-desc">
+                      <p>{{item.selfEvaluation}}</p>
                     </div>
                   </div>
-                  <div class="item-sell" v-if="item.selling_point != null ? (item.selling_point.length > 1 ? true : false) : false">
+                  <div class="item-sell" v-if="item.sellingPoint != null ? (item.sellingPoint.length > 1 ? true : false) : false">
                     <div>
                       <div class="pro-sell">
                         项目卖点
                       </div>
-                      <div class="item-sell-child" v-for="sellItem in item.selling_point" v-if="sellItem.length > 3">
+                      <div class="item-sell-child" v-for="sellItem in item.sellingPoint" v-if="sellItem.length > 3">
                         <span class="sell-l"><i class="icon-star"></i></span>
                         <span class="sell-r">{{sellItem}}</span>
                       </div>
@@ -110,13 +110,13 @@
                     </div>
                     <div class="info-desc">
                       <h3>楼盘信息</h3>
-                      <p v-if="item.project_name != null">楼盘名称：{{item.project_name}}</p>
-                      <p v-if="item.unit_price != null">单价：{{item.unit_price}}</p>
+                      <p v-if="item.projectName != null">楼盘名称：{{item.projectName}}</p>
+                      <p v-if="item.unitPrice != null">单价：{{item.unitPrice}}</p>
                       <p v-if="item.hux != null">户型：{{item.hux}}</p>
                       <p v-if="item.area != null">面积：{{item.area}}</p>
-                      <p v-if="item.total_price != null">总价：{{item.total_price}}万起</p>
-                      <p v-if="item.down_pays != null">首付比例：{{item.down_pays}}万起</p>
-                      <p v-if="item.delivery_time != null">交房时间：{{item.delivery_time}}</p>
+                      <p v-if="item.totalPrice != null">总价：{{item.totalPrice}}万起</p>
+                      <p v-if="item.downPays != null">首付比例：{{item.downPays}}万起</p>
+                      <p v-if="item.deliveryTime != null">交房时间：{{item.deliveryTime}}</p>
                       <p v-if="item.renovation != null">交房标准：{{item.renovation}}</p>
                     </div>
                     <div class="info-clcik" v-if="!isShow" @click="showMove"><span>点击查看更多信息 <i class="icon-arrow"></i></span></div>
@@ -124,72 +124,72 @@
                       <span>
                         <img :src="heartImg" alt="">
                       </span>
-                      <div v-if="item.regional_introduction != null">
+                      <div v-if="item.regionalIntroduction != null">
                         <h3>区域介绍</h3>
-                        <p v-for="regItem in item.regional_introduction">{{regItem}}</p>
+                        <p v-for="regItem in item.regionalIntroduction">{{regItem}}</p>
                       </div>
                       <span>
                         <img :src="heartImg" alt="">
                       </span>
-                      <div v-if="item.project_introduction != null">
+                      <div v-if="item.projectIntroduction != null">
                         <h3>项目介绍</h3>
-                        <p v-for="proItem in item.project_introduction">{{proItem}}</p>
+                        <p v-for="proItem in item.projectIntroduction">{{proItem}}</p>
                       </div>
                       <span>
                         <img :src="heartImg" alt="">
                       </span>
                       <div>
-                        <h3 v-if="item.supporting_facilities != null ? true : false">配套设施</h3>
-                        <p class="sup-sty" v-if="item.supporting_facilities != null && item.supporting_facilities.length >= 1" v-for="supItem in item.supporting_facilities">{{supItem}}</p>
+                        <h3 v-if="item.supportingFacilities != null ? true : false">配套设施</h3>
+                        <p class="sup-sty" v-if="item.supportingFacilities != null && item.supportingFacilities.length >= 1" v-for="supItem in item.supportingFacilities">{{supItem}}</p>
                         <span @click="hideMove">折叠以上信息</span>
                       </div>
                     </div>
                   </div>
-                  <div class="item-photo"  v-if="item.property_album != null ? (item.property_album.length >= 1 ? true : false) : false">
+                  <div class="item-photo"  v-if="item.propertyAlbum != null ? (item.propertyAlbum.length >= 1 ? true : false) : false">
                       <div class="photo-title" ref="infophoto">
                         <div>
                           楼盘效果图
                         </div>
                       </div>
                       <div class="photo-list">
-                        <img  @load="loadImage" v-lazy="'http://sofmanager.fangsir007.com/image/' + item.property_album[0]" alt="">
+                        <img  @load="loadImage" v-lazy="'http://sofmanager.fangsir007.com/image/' + item.propertyAlbum[0]" alt="">
                       </div>
                       <div class="info-clcik" v-if="!isShowPhoto" @click="showMove('photo')"><span>点击查看更多信息 <i class="icon-arrow"></i></span></div>
                       <div v-if="isShowPhoto">
-                        <div class="photo-list" v-for="(photoItem, index) in item.property_album" v-if="index === 0 ? false : true && photoItem.indexOf('.') > -1">
+                        <div class="photo-list" v-for="(photoItem, index) in item.propertyAlbum" v-if="index === 0 ? false : true && photoItem.indexOf('.') > -1">
                           <img  @load="loadImage" v-lazy="'http://sofmanager.fangsir007.com/image/' + photoItem" alt="">
                         </div>
-                        <span class="hide-span" @click="hideMove('photo')">{{item.property_album.length > 1 ? '折叠以上信息' : '没有更多了'}}</span>
+                        <span class="hide-span" @click="hideMove('photo')">{{item.propertyAlbum.length > 1 ? '折叠以上信息' : '没有更多了'}}</span>
                       </div>
                   </div>
-                  <div class="item-photo" v-if="item.huxing_img != null ? (item.huxing_img.length >= 1 ? true : false) : false">
+                  <div class="item-photo" v-if="item.huxingImg != null ? (item.huxingImg.length >= 1 ? true : false) : false">
                       <div class="photo-title" ref="infoHuxing">
                         <div>
                           户型图
                         </div>
                       </div>
-                      <div class="photo-list" v-if="item.huxing_img != null ? true : false">
-                        <img  @load="loadImage" v-lazy="'http://sofmanager.fangsir007.com/image/' + item.huxing_img[0]" alt="">
+                      <div class="photo-list" v-if="item.huxingImg != null ? true : false">
+                        <img  @load="loadImage" v-lazy="'http://sofmanager.fangsir007.com/image/' + item.huxingImg[0]" alt="">
                       </div>
                       <div class="info-clcik" v-if="!isShowHuxing" @click="showMove('huxing')"><span>点击查看更多信息 <i class="icon-arrow"></i></span></div>
                       <div v-if="isShowHuxing">
-                        <div class="photo-list" v-for="(huItem, index) in item.huxing_img" v-if="index === 0 ? false : true && huItem.indexOf('.') > -1">
+                        <div class="photo-list" v-for="(huItem, index) in item.huxingImg" v-if="index === 0 ? false : true && huItem.indexOf('.') > -1">
                           <img  @load="loadImage" v-lazy="'http://sofmanager.fangsir007.com/image/' + huItem" alt="">
                         </div>
-                        <span class="hide-span" @click="hideMove('huxing')">{{item.huxing_img.length > 1 ? '折叠以上信息' : '没有更多了'}}</span>
+                        <span class="hide-span" @click="hideMove('huxing')">{{item.huxingImg.length > 1 ? '折叠以上信息' : '没有更多了'}}</span>
                       </div>  
                   </div>
                   <div class="item-rule">
                     <div>
                       <h3><i class="icon-book"></i>项目报备规则：</h3>
-                      <p>项目报备途径：{{item.way}}</p>
-                      <p>系统报备客户姓名标准：{{item.name_standard}}</p>
-                      <p>系统报备客户电话标准：{{item.tel_standard}}</p>
-                      <p>报备有效时间：{{item.protect_date}}</p>
+                      <p>项目报备途径：提前{{item.way}}分钟报备'房先生创图经纪人平台'</p>
+                      <p>系统报备客户姓名标准：{{item.nameStandard}}</p>
+                      <p>系统报备客户电话标准：{{item.telStandard}}</p>
+                      <p>报备有效时间：{{item.protectDate}}天</p>
                       <h3><i class="icon-book"></i>客户确认规则：与客户同时到场</h3>
-                      <p>系统确认客户姓名标准：{{item.name_standard}}</p>
-                      <p>系统确认客户电话标准：{{item.customertel_standard}}</p>
-                      <p>确认客户保护期：{{item.customerprotect_date}}</p>
+                      <p>系统确认客户姓名标准：{{item.nameStandard}}</p>
+                      <p>系统确认客户电话标准：{{item.telStandard}}</p>
+                      <p>确认客户保护期：{{item.customerprotectDate}}天</p>
                     </div>
                   </div>
                 </div>
@@ -410,9 +410,9 @@
           }
           if (res.data.data) {
             const data = res.data.data
-            this.sliderImg = data.home_page
+            this.sliderImg = data.homePage
             this.phone = data.phone
-            this.title = data.project_name
+            this.title = data.projectName
             this.detailList.push(data)
           }
         })

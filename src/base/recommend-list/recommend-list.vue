@@ -2,7 +2,7 @@
   <div>
     <div class="project-list" v-if="projectList.length">
         <ul>
-          <li @click="projectDetail(item.id)" :key="index"class="item" v-for="(item, index) in projectList">
+          <li @click.stop="projectDetail(item.id)" :key="index"class="item" v-for="(item, index) in projectList">
             <div tag="div" class="item-list" >
               <div class="item-img">
                 <div class="item-new">
@@ -46,7 +46,6 @@
       },
       projectDetail (id) {
         this.$emit('buryingPoint', false)
-        // this.$router.push('/detail/' + id)
         this.$router.push({path: '/detail', query: {id: id}})
       }
     }

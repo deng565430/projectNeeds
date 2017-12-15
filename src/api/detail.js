@@ -1,7 +1,7 @@
 import $api from './index'
 
 export function getProjectDetail (id) {
-  const url = `/pro/getProjectDetail?id=${id}`
+  const url = `/projectnewest/getproject?id=${id}`
 
   return $api.get(url)
 }
