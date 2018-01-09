@@ -1,6 +1,8 @@
 <template>
 <div class="recommend">
-
+        <div class="mengceng-img" v-if="mengcengFlag">
+          <img :src="mengcengImg" alt="" @click="hideMengceng">
+        </div>
         <pop-box class="provincelist" ref="provincelists" v-if="showCitysList" :posTop="clientTop" :typeList="provincelist" @showPopBox="showCityList">
           <div class="pop-city-list" ref="cityList">
              <div  @click.stop.prevent>
@@ -41,13 +43,13 @@
       </div>
       <div class="scroll-top-show" ref="typeListClone">
         <ul class="type-list">
-          <li v-for="(item, index) in showSelectList" :class="[active === index ? 'active': '']" @click.stop="getTypeList(item, index, true)">{{item.name}}</li>
+          <li :key="item" v-for="(item, index) in showSelectList" :class="[active === index ? 'active': '']" @click.stop="getTypeList(item, index, true)">{{item.name}}</li>
         </ul>
        </div>
       <pop-box v-if="showTypeList" :posTop="clientTop" :typeList="typeList" @showPopBox="showPopBox">
           <div>
             <ul class="pop-list-child" v-if="typeList.length">
-              <li v-for="(item, index) in typeList" :class="[index === selectTypeIndex ? 'select-type-index' : '']" @click.stop.prevent="selectType(item, index)">
+              <li :key="item" v-for="(item, index) in typeList" :class="[index === selectTypeIndex ? 'select-type-index' : '']" @click.stop.prevent="selectType(item, index)">
                 {{item.name}}
               </li>
             </ul>
@@ -70,7 +72,7 @@
           <div>
             <div v-if="recommends.length" class="slider-wrapper" ref="sliderWrapper">
               <slider>
-                <div v-for="item in recommends" class="slider-img">
+                <div :key="item" v-for="item in recommends" class="slider-img">
                   <a @click.prevent="addLog(item.projectid)">
                     <p :style="sliderContentText">{{item.project_name}}</p>
                     <img class="needsclick" @load="loadImage" :src="'http://sofmanager.fangsir007.com/image/' + item.image">
@@ -83,10 +85,10 @@
             </div>
             <div >
               <ul class="type-list"  ref="typeList">
-                <li v-for="(item, index) in showSelectList" :class="[active === index ? 'active': '']" @click="getTypeList(item, index)">{{item.name}}</li>
+                <li :key="item" v-for="(item, index) in showSelectList" :class="[active === index ? 'active': '']" @click="getTypeList(item, index)">{{item.name}}</li>
               </ul>
             </div>
-            <recommend-list @buryingPoint="buryingPoint" :projectList="projectList"></recommend-list>
+            <recommend-list @projectnewest="projectnewest" @buryingPoint="buryingPoint" :projectList="projectList"></recommend-list>
             <loading v-show="hasMore" title=""></loading>
             <div v-show="!hasMore" class="no-result-wrapper">
               <p>{{noResultWrapper}}</p>
@@ -97,11 +99,7 @@
       <div class="scroll-to-top" ref="scrollToTop" @click="scrollToTop">
         <i class="icon-scrollTop"></i>
       </div>
-      <div class="to-one-price" @click="toOnePrice">
-        <img :src="onePrice" alt="">
-      </div>
-
-        <router-view></router-view>
+       <confirm ref="confirm" @cancel="cancel" @confirm="confirmClear" :text="text"></confirm>
 
 </div>
 </template>
@@ -119,7 +117,8 @@ const selectList = [{
   type: 'all'
 }]
 const NUM = 255
-import { getProjectList, getTypeList, getProvincelist, getCitylist, getDistirctlist, getBannerImg } from 'api/recommendList'
+import { getProjectList, getTypeList, getProvincelist, getCitylist, getDistirctlist, getBannerImg, projectnewest } from 'api/recommendList'
+import { getFirstVisited } from 'api/getFirstVisited'
 import Slider from 'base/slider/slider'
 import SearchBox from 'base/search-box/search-box'
 import Loading from 'base/loading/loading'
@@ -127,6 +126,7 @@ import Scroll from 'base/scroll/scroll'
 import RecommendList from 'base/recommend-list/recommend-list'
 import PopBox from 'base/pop-box/pop-box'
 import Banner from 'base/banner/banner'
+import Confirm from 'base/confirm/confirm'
 import TYPE from 'common/js/buryingpointType'
 import { addLog } from 'api/buryingpoint'
 export default {
@@ -135,6 +135,7 @@ export default {
     Loading,
     Scroll,
     SearchBox,
+    Confirm,
     RecommendList,
     PopBox,
     Banner
@@ -146,7 +147,6 @@ export default {
       projectList: [],
       typeList: [],
       typeListModel: [],
-      onePrice: require('common/image/yifangyijia.png'),
       active: 3,
       provinceActive: '',
       query: '',
@@ -154,6 +154,8 @@ export default {
       districtlistActive: '',
       pullup: true,
       hasMore: true,
+      mengcengFlag: false,
+      mengcengImg: require('common/image/mengcenghome01.jpg'),
       showTypeList: false,
       showCitysList: false,
       start: 0,
@@ -198,16 +200,35 @@ export default {
       selectTypeIndex: -1,
       sliderContentText: {
         width: document.body.clientWidth + 'px'
-      }
+      },
+      text: '',
+      projectnewestData: {}
     }
   },
   created () {
+    // 判断是否是首次访问
+    getFirstVisited('recommentList').then(res => {
+      console.log(res.data)
+      if (res.data.data === 0) {
+        this.mengcengFlag = true
+      }
+    })
     this._getProjectList()
     this._getTypeList()
     this._getBannerImg()
   },
   computed: {},
   methods: {
+    // 求分销
+    projectnewest(data) {
+      this.projectnewestData = data
+      this.text = '我们会尽快与该项目合作，签定分销协议'
+      this.$refs.confirm.show()
+    },
+    // 点击隐藏蒙层
+    hideMengceng () {
+      this.mengcengFlag = false
+    },
     addLog (id) {
       console.log(id)
       this.buryingPoint()
@@ -217,6 +238,25 @@ export default {
           id: id
         }
       })
+    },
+    confirmClear() {
+      if (this.text === '我们会尽快与该项目合作，签定分销协议') {
+        addLog(TYPE.PROJECT, '', TYPE.HEZUOBTNCONFIRM, TYPE.PROJECT, window.USERMSG)
+        projectnewest(this.projectnewestData.projectname, this.projectnewestData.id).then(res => {
+          if (res.data.code === 2) {
+            this.text = '请先注册！'
+            this.$refs.confirm.show()
+          }
+        })
+      }
+      if (this.text === '请先注册！') {
+        window.location.href = '/registration'
+      }
+    },
+    cancel() {
+      if (this.text === '我们会尽快与该项目合作，签定分销协议') {
+        addLog(TYPE.PROJECT, '', TYPE.HEZUOBTNCONCEL, TYPE.PROJECT, window.USERMSG)
+      }
     },
     // 埋点
     buryingPoint (flag) {
@@ -465,9 +505,6 @@ export default {
     scrollToTop() {
       this.$refs.scroll.scrollTo(0, 0, 600)
     },
-    toOnePrice() {
-      this.$router.push('/housePrice')
-    },
     beforeScroll() {
       if (this.$refs.searchBox) {
         this.$refs.searchBox.blur()
@@ -580,6 +617,17 @@ export default {
   bottom: 0
   font-size: $font-size-medium
   background: #eee
+  .mengceng-img
+    position: fixed
+    z-index: 999999
+    top: 0
+    left: 0
+    right: 0
+    bottom: 0
+    width: 100%
+    img
+      width: 100%
+      height: 100%
   .provincelist
     position: fixed
     top: 0

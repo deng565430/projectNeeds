@@ -59,3 +59,14 @@ export function getBannerImg () {
 
   return $api.get(url)
 }
+
+// 求分销
+export function projectnewest(projectName, projectid) {
+  const data = {
+    projectid,
+    projectName
+  }
+  const url = `/projectnewest/needproject`
+
+  return $api.post(url, data)
+}

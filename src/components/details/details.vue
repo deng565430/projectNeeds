@@ -6,18 +6,18 @@
           </div>
           <div class="title" v-if="detailList.length">
             <my-title :title="'项目介绍'"></my-title>
-            <div @click="toExprot"  class="export-img"><img :src="exportImg" alt=""></br>生成客户版</div>
+            <div @click="toExprot"  class="export-img"><img :src="exportImg" alt="" /><br/>生成客户版</div>
           </div>
           <scroll ref="scroll" :beforeScroll="true" @beforeScroll="beforeScroll" :pullup="pullup" class="list" :data="detailList">
             <div class="detail-list">
               <div  v-if="detailList.length">
-                <div v-for="item in detailList">
+                <div :key="item" v-for="item in detailList">
                   <div class="slider-wrapper">
                     <slider :styleBottom="'40px'" v-if="item.homePage != null ? true : false">
-                      <div v-for="childItem in item.homePage" v-if="childItem.indexOf('.') > -1">
+                      <div :key="childItem" v-for="childItem in item.homePage" v-if="childItem.indexOf('.') > -1">
                         <div>
                           <img class="needsclick" @load="loadImage" :src="'http://sofmanager.fangsir007.com/image/' + childItem">
-                        </div>  
+                        </div>
                       </div>
                     </slider>
                   </div>
@@ -27,21 +27,21 @@
                       <span>{{item.address}}</span>
                     </div>
                   </div>
-                  <div class="item-comm">
+                  <div class="item-comm" v-if="item.commission != null">
                     <div v-if="item.commission != null" class="comm-t">
                       <div class="l">佣金标准</div>
                       <div class="r">
                         <p>{{item.commission}}</p>
                       </div>
                     </div>
-                    <div v-if="item.commissionJunction != null" class="comm-b">
+                    <div v-if="item.commissionJunction.length > 0 && item.commissionJunction[0].length > 0" class="comm-b">
                       <span class="l">结佣说明</span>
                       <div class="r">
-                        <p v-for="commItem in item.commissionJunction">{{commItem}}</p>
+                        <p :key="commItem" v-for="commItem in item.commissionJunction">{{commItem}}</p>
                       </div>
                     </div>
                   </div>
-                  <div class="item-butt-man">
+                  <div class="item-butt-man" v-if="item.name != null">
                     <div class="butt-man-l">
                       <div class="butt-img" v-if="item.img != null">
                         <img :src="'http://sofmanager.fangsir007.com/image/' + item.img" alt="">
@@ -58,7 +58,7 @@
                         <span  class="butt-color"> {{item.goodAt}}</span>
                       </div>
                       <div v-if="item.label != null ? (item.label.length > 1 ? true : false) : false">
-                        <span class="butt-color" :class="[index % 2 === 0 ? 'butt-first-color' : 'butt-second-color']" v-for="(labelItem, index) in item.label"><i class="icon-gou ic-color">
+                        <span class="butt-color" :class="[index % 2 === 0 ? 'butt-first-color' : 'butt-second-color']" :key="labelItem" v-for="(labelItem, index) in item.label"><i class="icon-gou ic-color">
                         </i> {{labelItem}} </span>
                       </div>
                     </div>
@@ -74,7 +74,7 @@
                       <div class="pro-sell">
                         项目卖点
                       </div>
-                      <div class="item-sell-child" v-for="sellItem in item.sellingPoint" v-if="sellItem.length > 3">
+                      <div class="item-sell-child" :key="sellItem" v-for="sellItem in item.sellingPoint" v-if="sellItem.length > 3">
                         <span class="sell-l"><i class="icon-star"></i></span>
                         <span class="sell-r">{{sellItem}}</span>
                       </div>
@@ -96,7 +96,7 @@
                       <div class="pro-sell">
                         政策法规
                       </div>
-                      <div class="item-sell-child" v-for="poItem in item.policies">
+                      <div class="item-sell-child" :key="poItem" v-for="poItem in item.policies">
                         <span class="sell-l"><i class="icon-star"></i></span>
                         <span class="sell-r">{{poItem}}</span>
                       </div>
@@ -110,14 +110,14 @@
                     </div>
                     <div class="info-desc">
                       <h3>楼盘信息</h3>
-                      <p v-if="item.projectName != null">楼盘名称：{{item.projectName}}</p>
-                      <p v-if="item.unitPrice != null">单价：{{item.unitPrice}}</p>
-                      <p v-if="item.hux != null">户型：{{item.hux}}</p>
-                      <p v-if="item.area != null">面积：{{item.area}}</p>
-                      <p v-if="item.totalPrice != null">总价：{{item.totalPrice}}万起</p>
-                      <p v-if="item.downPays != null">首付比例：{{item.downPays}}万起</p>
-                      <p v-if="item.deliveryTime != null">交房时间：{{item.deliveryTime}}</p>
-                      <p v-if="item.renovation != null">交房标准：{{item.renovation}}</p>
+                      <p v-if="item.projectName != null && item.projectName !== ''">楼盘名称：{{item.projectName}}</p>
+                      <p v-if="item.unitPrice != null && item.unitPrice !== ''">单价：{{item.unitPrice}}</p>
+                      <p v-if="item.hux != null && item.hux !== ''">户型：{{item.hux}}</p>
+                      <p v-if="item.area != null && item.area !== ''">面积：{{item.area}}</p>
+                      <p v-if="item.totalPrice != null && item.totalPrice !== ''">总价：{{item.totalPrice}}万起</p>
+                      <p v-if="item.downPays != null && item.downPays !== ''">首付比例：{{item.downPays}}万起</p>
+                      <p v-if="item.deliveryTime != null && item.deliveryTime !== ''">交房时间：{{item.deliveryTime}}</p>
+                      <p v-if="item.renovation != null && item.renovation !== ''">交房标准：{{item.renovation}}</p>
                     </div>
                     <div class="info-clcik" v-if="!isShow" @click="showMove"><span>点击查看更多信息 <i class="icon-arrow"></i></span></div>
                     <div class="info-list" v-if="isShow">
@@ -126,21 +126,21 @@
                       </span>
                       <div v-if="item.regionalIntroduction != null">
                         <h3>区域介绍</h3>
-                        <p v-for="regItem in item.regionalIntroduction">{{regItem}}</p>
+                        <p :key="regItem" v-for="regItem in item.regionalIntroduction">{{regItem}}</p>
                       </div>
                       <span>
                         <img :src="heartImg" alt="">
                       </span>
                       <div v-if="item.projectIntroduction != null">
                         <h3>项目介绍</h3>
-                        <p v-for="proItem in item.projectIntroduction">{{proItem}}</p>
+                        <p :key="proItem" v-for="proItem in item.projectIntroduction">{{proItem}}</p>
                       </div>
                       <span>
                         <img :src="heartImg" alt="">
                       </span>
                       <div>
                         <h3 v-if="item.supportingFacilities != null ? true : false">配套设施</h3>
-                        <p class="sup-sty" v-if="item.supportingFacilities != null && item.supportingFacilities.length >= 1" v-for="supItem in item.supportingFacilities">{{supItem}}</p>
+                        <p class="sup-sty" v-if="item.supportingFacilities != null && item.supportingFacilities.length >= 1" :key="supItem" v-for="supItem in item.supportingFacilities">{{supItem}}</p>
                         <span @click="hideMove">折叠以上信息</span>
                       </div>
                     </div>
@@ -154,9 +154,9 @@
                       <div class="photo-list">
                         <img  @load="loadImage" v-lazy="'http://sofmanager.fangsir007.com/image/' + item.propertyAlbum[0]" alt="">
                       </div>
-                      <div class="info-clcik" v-if="!isShowPhoto" @click="showMove('photo')"><span>点击查看更多信息 <i class="icon-arrow"></i></span></div>
+                      <div v-if="item.propertyAlbum.length > 1"><div class="info-clcik" v-if="!isShowPhoto" @click="showMove('photo')"><span>点击查看更多信息 <i class="icon-arrow"></i></span></div></div>
                       <div v-if="isShowPhoto">
-                        <div class="photo-list" v-for="(photoItem, index) in item.propertyAlbum" v-if="index === 0 ? false : true && photoItem.indexOf('.') > -1">
+                        <div class="photo-list" :key="photoItem" v-for="(photoItem, index) in item.propertyAlbum" v-if="index === 0 ? false : true && photoItem.indexOf('.') > -1">
                           <img  @load="loadImage" v-lazy="'http://sofmanager.fangsir007.com/image/' + photoItem" alt="">
                         </div>
                         <span class="hide-span" @click="hideMove('photo')">{{item.propertyAlbum.length > 1 ? '折叠以上信息' : '没有更多了'}}</span>
@@ -171,16 +171,16 @@
                       <div class="photo-list" v-if="item.huxingImg != null ? true : false">
                         <img  @load="loadImage" v-lazy="'http://sofmanager.fangsir007.com/image/' + item.huxingImg[0]" alt="">
                       </div>
-                      <div class="info-clcik" v-if="!isShowHuxing" @click="showMove('huxing')"><span>点击查看更多信息 <i class="icon-arrow"></i></span></div>
+                      <div v-if="item.huxingImg.length > 1"><div class="info-clcik" v-if="!isShowHuxing" @click="showMove('huxing')"><span>点击查看更多信息 <i class="icon-arrow"></i></span></div></div>
                       <div v-if="isShowHuxing">
-                        <div class="photo-list" v-for="(huItem, index) in item.huxingImg" v-if="index === 0 ? false : true && huItem.indexOf('.') > -1">
+                        <div class="photo-list" :key="huItem" v-for="(huItem, index) in item.huxingImg" v-if="index === 0 ? false : true && huItem.indexOf('.') > -1">
                           <img  @load="loadImage" v-lazy="'http://sofmanager.fangsir007.com/image/' + huItem" alt="">
                         </div>
                         <span class="hide-span" @click="hideMove('huxing')">{{item.huxingImg.length > 1 ? '折叠以上信息' : '没有更多了'}}</span>
-                      </div>  
+                      </div>
                   </div>
                   <div class="item-rule">
-                    <div>
+                    <div v-if="nameStandard != null">
                       <h3><i class="icon-book"></i>项目报备规则：</h3>
                       <p>项目报备途径：提前{{item.way}}分钟报备'房先生创图经纪人平台'</p>
                       <p>系统报备客户姓名标准：{{item.nameStandard}}</p>
@@ -216,7 +216,7 @@
                         </div>
                     </div>
                     <div v-if="userMsg.length">
-                      <div class="user-msg" v-for="item in userMsg">
+                      <div class="user-msg" :key="item" v-for="item in userMsg">
                         <h3>{{item.username}}</h3>
                         <p>{{item.content}}</p>
                         <p class="user-msg-time">{{item.createtime ? item.createtime.split(' ')[0] : ''}}</p>
@@ -226,21 +226,26 @@
                       还没有留言哦，快去发布吧~
                     </div>
                     <div style="height: 100px">
-                      
+
                     </div>
                 </div>
               </div>
               <div v-else>
                   <loading title=""></loading>
-                </div>  
+                </div>
             </div>
           </scroll>
           <div>
-           <confirm ref="confirm" @confirm="confirmClear" @cancel="confirmClear" :text="text" :confirmBtnText="confirmBtnText"></confirm>
+           <confirm ref="confirm" @confirm="confirmClear" @cancel="cancel" :text="text" :confirmBtnText="confirmBtnText"></confirm>
           </div>
-          <div class="button-phone" v-if="detailList.length">
-            <a class="btn btn-danger" :href="'tel:' + phone"><span><i class="icon-phone"></i>  对接人电话</span></a>
-            <a class="btn btn-success" @click.prevent="addLog(id)" ><span><i class="icon-report"></i>  我要报备</span></a>
+          <div v-if="detailList.length">
+            <div class="button-phone" v-if="inStock === 0">
+              <a class="btn btn-danger" :href="'tel:' + phone"><span><i class="icon-phone"></i>  对接人电话</span></a>
+              <a class="btn btn-success" @click.prevent="addLog(id)" ><span><i class="icon-report"></i>  我要报备</span></a>
+            </div>
+            <div class="button-phone hezuo" v-else>
+              <a class="btn btn-primary" @click.prevent="projectnewest(id)" ><span>求合作</span></a>
+            </div>
           </div>
     </div>
   </transition>
@@ -254,6 +259,7 @@
   import TYPE from 'common/js/buryingpointType'
   import { addLog } from 'api/buryingpoint'
   import { getProjectDetail, getCommentlist, addComment } from 'api/detail'
+  import { projectnewest } from 'api/recommendList'
   import { getFirstVisited } from 'api/getFirstVisited'
   export default {
     data() {
@@ -277,7 +283,9 @@
         text: '',
         confirmBtnText: '确定',
         title: '',
-        phone: ''
+        phone: '',
+        inStock: 0,
+        projectnewestData: {}
       }
     },
     components: {
@@ -299,6 +307,14 @@
       this._getCommentlist()
     },
     methods: {
+      // 点击求分销然后所做的事
+      // 求分销
+      projectnewest(id) {
+        this.projectnewestData.projectname = this.title
+        this.projectnewestData.id = id
+        this.text = '我们会尽快与该项目合作，签定分销协议'
+        this.$refs.confirm.show()
+      },
       // 点击隐藏蒙层
       hideMengceng () {
         this.mengcengFlag = false
@@ -391,9 +407,34 @@
         })
         this.textarea = ''
       },
+      confirmCancel() {
+        if (this.text === '正在整理此项目数据') {
+          window.location.href = '/recommendList'
+        }
+      },
       confirmClear() {
         if (this.text === '正在整理此项目数据') {
           window.location.href = '/recommendList'
+        }
+        if (this.text === '我们会尽快与该项目合作，签定分销协议') {
+          addLog(TYPE.PROJECTDETAIL, '', TYPE.HEZUOBTNCONFIRM, TYPE.PROJECTDETAIL, window.USERMSG)
+          projectnewest(this.projectnewestData.projectname, this.projectnewestData.id).then(res => {
+            if (res.data.code === 2) {
+              this.text = '请先注册！'
+              this.$refs.confirm.show()
+            }
+          })
+        }
+        if (this.text === '请先注册！') {
+          window.location.href = '/registration'
+        }
+      },
+      cancel() {
+        if (this.text === '正在整理此项目数据') {
+          window.location.href = '/recommendList'
+        }
+        if (this.text === '我们会尽快与该项目合作，签定分销协议') {
+          addLog(TYPE.PROJECTDETAIL, '', TYPE.HEZUOBTNCONCEL, TYPE.PROJECTDETAIL, window.USERMSG)
         }
       },
       beforeScroll() {
@@ -413,6 +454,7 @@
             this.sliderImg = data.homePage
             this.phone = data.phone
             this.title = data.projectName
+            this.inStock = data.inStock
             this.detailList.push(data)
           }
         })
@@ -433,7 +475,7 @@
 </script>
 <style scoped lang="stylus" rel="stylesheet/stylus">
   @import "~common/stylus/variable"
-  
+
   .show-detail
     position: fixed
     height: 100%
@@ -568,7 +610,7 @@
           font-size: $font-size-medium-x
         .butt-color
           color: #949494
-        .butt-second-color  
+        .butt-second-color
           border: 1px solid #f39800
           margin-right: 10px
           padding: 3px
@@ -577,7 +619,7 @@
           border: 1px solid #89c997
           margin-right: 10px
           padding: 3px
-          border-radius: 5px  
+          border-radius: 5px
         i
           display: inline-block
           vertical-align: middle
@@ -594,7 +636,7 @@
       margin: 10px 0
       p
         line-height: 22px
-        text-indent: 2em    
+        text-indent: 2em
     .item-sell
       padding: 20px 10px
       background: white
@@ -675,7 +717,7 @@
             text-indent: 2em
           span
             padding: 10px
-            color: #044cd1     
+            color: #044cd1
           .sup-sty
             text-indent: 0
     .item-photo
@@ -685,7 +727,7 @@
       .hide-span
         display: inline-block
         color: #044cd1
-        padding: 15px 
+        padding: 15px
       .photo-title
         color: #fe4b42
         height: 30px
@@ -716,7 +758,7 @@
           color: #fff
           padding: 10px
         img
-          width: 100%  
+          width: 100%
     .item-rule
       padding: 20px 10px
       background: white
@@ -756,7 +798,7 @@
         width: 100px
         margin: 10px auto
         img
-          width: 100%    
+          width: 100%
       .write-msg
         text-align: right
         img
@@ -799,7 +841,7 @@
             width: 100%
             color: white
             padding: 10px 0
-            font-size: $font-size-medium  
+            font-size: $font-size-medium
       .user-msg
         margin-top: 20px
         h3
@@ -807,14 +849,14 @@
           font-size: $font-size-medium-x
           line-height: 30px
         p
-          line-height: 20px  
+          line-height: 20px
         .user-msg-time
           color: #ccc
-          font-size: $font-size-small-s      
+          font-size: $font-size-small-s
       .no-msg
         color: #ccc
         text-align: center
-          
+
   .button-phone
     width: 100%
     background: white
@@ -845,8 +887,13 @@
       background: #0077ec
     .btn-success
       background: #ff4e00
+    .btn-primary
+      background: #0077ed
+  .hezuo
+    .btn
+      width: 70%
   .detail-enter-active, .detail-leave-active
     transition: all 0.3s
   .detail-enter, .detail-leave-to
-    transform: translate3d(100%, 0, 0)             
+    transform: translate3d(100%, 0, 0)
 </style>

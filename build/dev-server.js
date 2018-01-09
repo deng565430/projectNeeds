@@ -11,7 +11,6 @@ var express = require('express')
 var webpack = require('webpack')
 var proxyMiddleware = require('http-proxy-middleware')
 var webpackConfig = require('./webpack.dev.conf')
-var data = require('../data/data.json')
 
 // default port where dev server listens for incoming traffic
 var port = process.env.PORT || config.dev.port
@@ -22,53 +21,6 @@ var autoOpenBrowser = !!config.dev.autoOpenBrowser
 var proxyTable = config.dev.proxyTable
 
 var app = express()
-
-var apiRoutes = express.Router()
-
-apiRoutes.post('/getprojectlistBydistrict', function (req, res) {
-  let datalist = {
-    data: data
-  }
-  res.send(datalist)
-})
-
-apiRoutes.get('/getwuye', function (req, res) {
-  let datalist = {
-    data: ['商铺', '商办公寓', '商铺', '住宅', '商铺', '别墅', '商铺', '商铺', '商办公寓', '商铺', '住宅', '商铺', '别墅', '商铺']
-  }
-  res.send(datalist)
-})
-
-apiRoutes.get('/getDianyong', function (req, res) {
-  let datalist = {
-    data: data
-  }
-  res.send(datalist)
-})
-
-apiRoutes.get('/getProvincelist', function (req, res) {
-  let datalist = {
-    data: ["浙江省", "江苏省", "上海市"]
-  }
-  res.send(datalist)
-})
-
-apiRoutes.post('/getCitylist', function (req, res) {
-  let datalist = {
-    data: ["苏州市", "南通市", "无锡市"]
-  }
-  res.send(datalist)
-})
-
-apiRoutes.post('/getDistirctlist', function (req, res) {
-  let datalist = {
-    data: ["通州", "如皋", "海安", "如东", "海门", "通州", "如皋", "海安", "如东", "海门"]
-  }
-  res.send(datalist)
-})
-
-
-app.use('/pro', apiRoutes)
 
 var compiler = webpack(webpackConfig)
 

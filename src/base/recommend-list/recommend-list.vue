@@ -2,7 +2,7 @@
   <div>
     <div class="project-list" v-if="projectList.length">
         <ul>
-          <li @click.stop="projectDetail(item.id)" :key="index"class="item" v-for="(item, index) in projectList">
+          <li @click.stop="projectDetail(item.id)" :key="index" class="item" v-for="(item, index) in projectList">
             <div tag="div" class="item-list" >
               <div class="item-img">
                 <div class="item-new">
@@ -13,15 +13,18 @@
             <div class="item-right">
               <div class="item-center">
                 <ul>
-                  <li>{{item.project_name}}</li>
-                  <li>{{item.district}}</li>
-                  <li>{{item.area}} | {{item.type}}</li>
-                  <li>{{item.commission}} (个人到手税前佣金)</li>
+                  <li v-if="item.project_name != null">{{item.project_name}}</li>
+                  <li v-if="item.district != null">{{item.district}}</li>
+                  <li v-if="item.type != null">{{item.area}} | {{item.type}}</li>
+                  <li v-if="item.commission != null">{{item.commission}} (个人到手税前佣金)</li>
                 </ul>
               </div>
               <div class="cen-par-right">
-                <a @click.stop="linkTo(item.id)" class="cen-right">
+                <a v-if="item.inStock === 0" @click.stop="linkTo(item.id)" class="cen-right">
                   报 备
+                </a>
+                <a v-else @click.stop="fenxiao(item.project_name, item.id)" class="cen-right bg-color">
+                  求合作
                 </a>
               </div>
             </div>
@@ -43,6 +46,9 @@
       linkTo(id) {
         this.$emit('buryingPoint', true)
         window.location = '/recommend?id=' + id
+      },
+      fenxiao(projectname, id) {
+        this.$emit('projectnewest', {projectname, id})
       },
       projectDetail (id) {
         this.$emit('buryingPoint', false)
@@ -110,4 +116,6 @@
             text-decoration: none
             border: none
             padding: 1px
+          .bg-color
+            background-color: #0077ed
 </style>

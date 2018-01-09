@@ -2,7 +2,7 @@
   <div>
     <div class="project-list" v-if="projectList.length">
         <ul>
-          <li class="item" v-for="item in projectList">
+          <li class="item" :key="item" v-for="item in projectList">
             <div class="item-right"><!-- `/housePrice/houseDetail/${encodeURIComponent(item.project_name)}` -->
               <router-link :to="{path:'/houseDetail',query: {id: `${item.project_name}`}} " class="item-center">
                 <div class="item-title">
@@ -19,7 +19,7 @@
                   </div>
                 </div>
               </router-link>
-            </div>  
+            </div>
           </li>
         </ul>
       </div>

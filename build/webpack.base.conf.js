@@ -17,7 +17,12 @@ module.exports = {
     ]
   },
   externals: {
-    'wx': 'wx'
+    'wx': 'wx',
+    'vue': 'Vue',
+    'vue-router': 'VueRouter',
+    'vue-lazyload': 'VueLazyload',
+    'axios': 'axios',
+    'babel-polyfill': 'window'
   },
   output: {
     path: config.build.assetsRoot,

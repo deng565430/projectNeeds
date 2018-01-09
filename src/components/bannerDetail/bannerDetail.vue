@@ -4,8 +4,8 @@
      <div class="title">
         <my-title :title="'买房贷款'"></my-title>
       </div>
-      <scroll 
-        ref="scroll" 
+      <scroll
+        ref="scroll"
         class="scroll"
         >
           <div>
@@ -19,7 +19,7 @@
               <img :src="content2" @load="loadImage" alt="">
             </div>
             <div class="detail-content">
-              <a  href="javascript:;"@touchstart="callPhone"><img @load="loadImage" :src="content3" alt=""></a>
+              <a  href="javascript:;" @touchstart="callPhone"><img @load="loadImage" :src="content3" alt=""></a>
             </div>
           </div>
       </scroll>
@@ -88,7 +88,7 @@
         height: 100%
         img
           width: 100%
-          height: 100%    
+          height: 100%
   .detail-enter-active, .detail-leave-active
     transition: all 0.3s
   .detail-enter, .detail-leave-to

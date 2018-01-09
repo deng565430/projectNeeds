@@ -5,7 +5,7 @@
       </slot>
     </div>
     <div class="dots" ref="dots">
-      <span class="dot" :class="{active: currentPageIndex === index }" v-for="(item, index) in dots"></span>
+      <span class="dot" :class="{active: currentPageIndex === index }" :key="item" v-for="(item, index) in dots"></span>
     </div>
   </div>
 </template>

@@ -6,7 +6,7 @@
     <scroll ref="scroll" class="list" :data="detailList">
       <div class="detail-list">
         <div class="detail-child" v-if="detailList.length" ref="htmlToImg">
-          <div v-for="item in detailList">
+          <div :key="item" v-for="item in detailList">
             <div class="slider-wrapper" v-if="item.homePage != null ? true : false">
               <img :src="'http://sofmanager.fangsir007.com/image/' + item.homePage[0]" alt="">
             </div>
@@ -20,7 +20,7 @@
                 <div class="pro-sell">
                   项目卖点
                 </div>
-                <div class="item-sell-child" v-for="sellItem in item.sellingPoint" v-if="sellItem.length > 3">
+                <div class="item-sell-child" :key="sellItem" v-for="sellItem in item.sellingPoint" v-if="sellItem.length > 3">
                   <span class="sell-l">
                     <i class="icon-star"></i>
                   </span>
@@ -88,7 +88,7 @@
                   楼盘效果图
                 </div>
               </div>
-              <div class="photo-list" v-for="(photoItem, index) in item.propertyAlbum">
+              <div class="photo-list" :key="photoItem" v-for="photoItem in item.propertyAlbum">
                 <img @load="loadImage" :src="'http://sofmanager.fangsir007.com/image/' + photoItem" alt="">
               </div>
             </div>
@@ -98,7 +98,7 @@
                   户型图
                 </div>
               </div>
-              <div class="photo-list" v-for="(huItem, index) in item.huxingImg" v-if="item.huxingImg != null ? true : false">
+              <div class="photo-list" :key="huItem" v-for="huItem in item.huxingImg" v-if="item.huxingImg != null ? true : false">
                 <img @load="loadImage"   :src="'http://sofmanager.fangsir007.com/image/' + huItem" alt="">
               </div>
             </div>
@@ -220,7 +220,7 @@
   }
 </script>
 <style scoped lang="stylus" rel="stylesheet/stylus">
-  @import "~common/stylus/variable" 
+  @import "~common/stylus/variable"
   .show-detail
     position: fixed
     width: 100%
@@ -301,7 +301,7 @@
       margin: 10px 0
       p
         line-height: 22px
-        text-indent: 2em    
+        text-indent: 2em
     .item-sell
       padding: 20px 10px
       background: white
@@ -382,7 +382,7 @@
             text-indent: 2em
           span
             padding: 10px
-            color: #044cd1     
+            color: #044cd1
           .sup-sty
             text-indent: 0
     .item-photo
@@ -392,7 +392,7 @@
       .hide-span
         display: inline-block
         color: #044cd1
-        padding: 15px 
+        padding: 15px
       .photo-title
         color: #fe4b42
         height: 30px
@@ -423,7 +423,7 @@
           color: #fff
           padding: 10px
         img
-          width: 100% 
+          width: 100%
   .button-phone
     width: 100%
     background: white
@@ -472,5 +472,5 @@
   .detail-enter-active, .detail-leave-active
     transition: all 0.3s
   .detail-enter, .detail-leave-to
-    transform: translate3d(100%, 0, 0)             
+    transform: translate3d(100%, 0, 0)
 </style>

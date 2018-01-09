@@ -8,6 +8,10 @@ export default {
   'PROJECTIMG': 'B019',
   // 项目推荐按钮
   'PROJECTBTN': 'B020',
+  // 求合作按钮确定
+  'HEZUOBTNCONFIRM': 'B070',
+  // 求合作按钮取消
+  'HEZUOBTNCONCEL': 'B071',
   // 项目详情
   'PROJECTDETAIL': 'P017',
   // 项目详情按钮

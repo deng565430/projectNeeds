@@ -16,18 +16,6 @@ const BannerDetail = (resolve) => {
   })
 }
 
-const HousePrice = (resolve) => {
-  import('components/housePrice/housePrice').then((module) => {
-    resolve(module)
-  })
-}
-
-const HouseDetails = (resolve) => {
-  import('components/houseDetails/houseDetails').then((module) => {
-    resolve(module)
-  })
-}
-
 const ExportPage = (resolve) => {
   import('components/exportPage/exportPage').then((module) => {
     resolve(module)
@@ -50,19 +38,6 @@ export default [
   }, {
     path: '/bannerDetail',
     component: BannerDetail,
-    meta: { keepAlive: true }
-  }, {
-    path: '/housePrice',
-    component: HousePrice,
-    children: [{
-      path: 'houseDetail/:pro',
-      component: HouseDetails,
-      name: 'detail',
-      mate: { keepAlive: true }
-    }]
-  }, {
-    path: '/houseDetail',
-    component: HouseDetails,
     meta: { keepAlive: true }
   }, {
     path: '/exportPage',
