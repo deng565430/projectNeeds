@@ -130,6 +130,9 @@
       MyTitle
     },
     created() {
+      setTimeout(function () {
+        addLog(TYPE.PROJECTEXPORTPAGE, '', '', '', window.USERMSG)
+      }, 1500)
       this._getDetail()
     },
     methods: {

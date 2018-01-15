@@ -298,11 +298,13 @@
     created() {
       // 判断是否是首次访问
       getFirstVisited('recommendListDetail').then(res => {
-        console.log(res.data)
         if (res.data.data === 0) {
           this.mengcengFlag = true
         }
       })
+      setTimeout(function () {
+        addLog(TYPE.PROJECTDETAIL, '', '', '', window.USERMSG)
+      }, 1500)
       this._getDetail()
       this._getCommentlist()
     },

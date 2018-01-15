@@ -208,11 +208,13 @@ export default {
   created () {
     // 判断是否是首次访问
     getFirstVisited('recommentList').then(res => {
-      console.log(res.data)
       if (res.data.data === 0) {
         this.mengcengFlag = true
       }
     })
+    setTimeout(function () {
+      addLog(TYPE.PROJECT, '', '', '', window.USERMSG)
+    }, 1500)
     this._getProjectList()
     this._getTypeList()
     this._getBannerImg()
