@@ -263,7 +263,7 @@ export default {
     // 埋点
     buryingPoint (flag) {
       if (flag) {
-        addLog(TYPE.PROJECT, '', TYPE.PROJECTBTN, TYPE.PROJECTDETAIL, window.USERMSG)
+        addLog(TYPE.PROJECT, '', TYPE.PROJECTBTN, TYPE.BAOBEIPAGE, window.USERMSG)
       } else {
         addLog(TYPE.PROJECT, '', TYPE.PROJECTIMG, TYPE.PROJECTDETAIL, window.USERMSG)
       }
