@@ -22,6 +22,13 @@ const ExportPage = (resolve) => {
   })
 }
 
+// 海外房产
+const OverseasList = (resolve) => {
+  import('components/overseasList/overseasList').then((module) => {
+    resolve(module)
+  })
+}
+
 export default [
   {
     path: '/',
@@ -44,5 +51,9 @@ export default [
     component: ExportPage,
     name: 'exportPage',
     mate: { keepAlive: true }
+  }, {
+    path: '/overseasList',
+    component: OverseasList,
+    meta: { keepAlive: true }
   }]
 

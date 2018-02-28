@@ -13,7 +13,7 @@
             <div class="item-right">
               <div class="item-center">
                 <ul>
-                  <li v-if="item.project_name != null">{{item.project_name}}</li>
+                  <li v-if="item.project_name != null">{{item.project_name}} {{item.province}} {{item.city}}</li>
                   <li v-if="item.district != null">{{item.district}}</li>
                   <li v-if="item.type != null">{{item.area}} | {{item.type}}</li>
                   <li v-if="item.commission != null">{{item.commission}} (个人到手税前佣金)</li>
@@ -51,8 +51,16 @@
         this.$emit('projectnewest', {projectname, id})
       },
       projectDetail (id) {
-        this.$emit('buryingPoint', false)
-        this.$router.push({path: '/detail', query: {id: id}})
+        console.log(this.$route)
+        if (this.$route.path === '/overseasList') {
+          this.$emit('buryingPoint', false, 'over')
+          this.$router.push({path: '/detail', query: {id: id, isover: 'over'}})
+        } else {
+          this.$emit('buryingPoint', false)
+          this.$router.push({path: '/detail', query: {id: id, isover: 'no'}})
+        }
+        // this.$emit('buryingPoint', false, 'over')
+        // this.$router.push({path: '/detail', query: {id: id, isover: 'over'}})
       }
     }
   }

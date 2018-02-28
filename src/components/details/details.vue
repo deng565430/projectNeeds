@@ -2,7 +2,7 @@
   <transition name="detail">
     <div class="show-detail">
           <div class="mengceng-img" v-if="mengcengFlag">
-            <img :src="mengcengImg" alt="" @click="hideMengceng">
+            <img :src="mengcengImg" alt="" @click="hideMengceng" />
           </div>
           <div class="title" v-if="detailList.length">
             <my-title :title="'项目介绍'"></my-title>
@@ -16,14 +16,15 @@
                     <slider :styleBottom="'40px'" v-if="item.homePage != null ? true : false">
                       <div :key="childItem" v-for="childItem in item.homePage" v-if="childItem.indexOf('.') > -1">
                         <div>
-                          <img class="needsclick" @load="loadImage" :src="'http://sofmanager.fangsir007.com/image/' + childItem">
+                          <img class="needsclick" @load="loadImage" :src="'http://sofmanager.fangsir007.com/image/' + childItem" />
                         </div>
                       </div>
                     </slider>
                   </div>
                   <div class="item-title">
                     <div class="item-addr">
-                      <h3 class="pink">{{title}} </h3>
+                      <h3 class="pink">{{title}}</h3>
+                      <p v-if="$route.query.isover === 'over'">{{item.province}} {{item.city}}</p> 
                       <span>{{item.address}}</span>
                     </div>
                   </div>
@@ -44,7 +45,7 @@
                   <div class="item-butt-man" v-if="item.name != null">
                     <div class="butt-man-l">
                       <div class="butt-img" v-if="item.img != null">
-                        <img :src="'http://sofmanager.fangsir007.com/image/' + item.img" alt="">
+                        <img :src="'http://sofmanager.fangsir007.com/image/' + item.img" alt="" />
                       </div>
                     </div>
                     <div class="butt-man-r">
@@ -112,9 +113,10 @@
                       <h3>楼盘信息</h3>
                       <p v-if="item.projectName != null && item.projectName !== ''">楼盘名称：{{item.projectName}}</p>
                       <p v-if="item.unitPrice != null && item.unitPrice !== ''">单价：{{item.unitPrice}}</p>
-                      <p v-if="item.hux != null && item.hux !== ''">户型：{{item.hux}}</p>
+                      <p v-if="item.huxing != null && item.huxing !== ''">户型：{{item.huxing}}</p>
                       <p v-if="item.area != null && item.area !== ''">面积：{{item.area}}</p>
-                      <p v-if="item.totalPrice != null && item.totalPrice !== ''">总价：{{item.totalPrice}}万起</p>
+                      <p v-if="$route.query.isover !== 'over' && item.totalPrice != null && item.totalPrice !== ''">总价：{{item.totalPrice}}万起</p>
+                      <p v-if="$route.query.isover === 'over' && item.totalPrice != null && item.totalPrice !== ''">总价：{{item.totalPrice}}万欧元起</p>
                       <p v-if="item.downPays != null && item.downPays !== ''">首付比例：{{item.downPays}}万起</p>
                       <p v-if="item.deliveryTime != null && item.deliveryTime !== ''">交房时间：{{item.deliveryTime}}</p>
                       <p v-if="item.renovation != null && item.renovation !== ''">交房标准：{{item.renovation}}</p>
@@ -122,21 +124,21 @@
                     <div class="info-clcik" v-if="!isShow" @click="showMove"><span>点击查看更多信息 <i class="icon-arrow"></i></span></div>
                     <div class="info-list" v-if="isShow">
                       <span>
-                        <img :src="heartImg" alt="">
+                        <img :src="heartImg" alt="" />
                       </span>
                       <div v-if="item.regionalIntroduction != null">
                         <h3>区域介绍</h3>
                         <p :key="regItem" v-for="regItem in item.regionalIntroduction">{{regItem}}</p>
                       </div>
                       <span>
-                        <img :src="heartImg" alt="">
+                        <img :src="heartImg" alt="" />
                       </span>
                       <div v-if="item.projectIntroduction != null">
                         <h3>项目介绍</h3>
                         <p :key="proItem" v-for="proItem in item.projectIntroduction">{{proItem}}</p>
                       </div>
                       <span>
-                        <img :src="heartImg" alt="">
+                        <img :src="heartImg" alt="" />
                       </span>
                       <div>
                         <h3 v-if="item.supportingFacilities != null ? true : false">配套设施</h3>
@@ -152,12 +154,12 @@
                         </div>
                       </div>
                       <div class="photo-list">
-                        <img  @load="loadImage" v-lazy="'http://sofmanager.fangsir007.com/image/' + item.propertyAlbum[0]" alt="">
+                        <img  @load="loadImage" v-lazy="'http://sofmanager.fangsir007.com/image/' + item.propertyAlbum[0]" alt="" />
                       </div>
                       <div v-if="item.propertyAlbum.length > 1"><div class="info-clcik" v-if="!isShowPhoto" @click="showMove('photo')"><span>点击查看更多信息 <i class="icon-arrow"></i></span></div></div>
                       <div v-if="isShowPhoto">
                         <div class="photo-list" :key="photoItem" v-for="(photoItem, index) in item.propertyAlbum" v-if="index === 0 ? false : true && photoItem.indexOf('.') > -1">
-                          <img  @load="loadImage" v-lazy="'http://sofmanager.fangsir007.com/image/' + photoItem" alt="">
+                          <img  @load="loadImage" v-lazy="'http://sofmanager.fangsir007.com/image/' + photoItem" alt="" />
                         </div>
                         <span class="hide-span" @click="hideMove('photo')">{{item.propertyAlbum.length > 1 ? '折叠以上信息' : '没有更多了'}}</span>
                       </div>
@@ -169,12 +171,12 @@
                         </div>
                       </div>
                       <div class="photo-list" v-if="item.huxingImg != null ? true : false">
-                        <img  @load="loadImage" v-lazy="'http://sofmanager.fangsir007.com/image/' + item.huxingImg[0]" alt="">
+                        <img  @load="loadImage" v-lazy="'http://sofmanager.fangsir007.com/image/' + item.huxingImg[0]" alt="" />
                       </div>
                       <div v-if="item.huxingImg.length > 1"><div class="info-clcik" v-if="!isShowHuxing" @click="showMove('huxing')"><span>点击查看更多信息 <i class="icon-arrow"></i></span></div></div>
                       <div v-if="isShowHuxing">
                         <div class="photo-list" :key="huItem" v-for="(huItem, index) in item.huxingImg" v-if="index === 0 ? false : true && huItem.indexOf('.') > -1">
-                          <img  @load="loadImage" v-lazy="'http://sofmanager.fangsir007.com/image/' + huItem" alt="">
+                          <img  @load="loadImage" v-lazy="'http://sofmanager.fangsir007.com/image/' + huItem" alt="" />
                         </div>
                         <span class="hide-span" @click="hideMove('huxing')">{{item.huxingImg.length > 1 ? '折叠以上信息' : '没有更多了'}}</span>
                       </div>
@@ -200,18 +202,19 @@
                       </div>
                     </div>
                     <div class="msg-wall">
-                      <img :src="messageWall" alt="">
+                      <img :src="messageWall" alt="" />
                     </div>
                     <div class="write-msg" v-if="!msgIsShow">
-                      <span  @click="showMsg">写留言<img :src="writeImg" alt=""></span>
+                      <span  @click="showMsg">写留言<img :src="writeImg" alt="" /></span>
                     </div>
                     <div class="msg" ref="msg" v-if="msgIsShow">
+                        <!-- :value="textaream" -->
                         <div class="msg-text">
-                          <textarea ref="textareas" class="text" :value="textarea" v-model="textarea" placeholder='请输入'></textarea>
+                          <textarea ref="textareas" class="text"  v-model="textaream" placeholder='请输入'></textarea>
                         </div>
                         <div class="msg-btn" ref="msgSend">
                           <div>
-                            <button type="button" ref="send"  :disabled="_trim(textarea) !== '' ? false : 'disabled'" :class="_trim(textarea) !== '' ? 'btn' : 'disabled'" @click="send">{{_trim(textarea) === '' ? '请填写留言' : '发送'}}</button>
+                            <button type="button" ref="send"  :disabled="_trim(textaream) !== '' ? false : 'disabled'" :class="_trim(textaream) !== '' ? 'btn' : 'disabled'" @click="send">{{_trim(textaream) === '' ? '请填写留言' : '发送'}}</button>
                           </div>
                         </div>
                     </div>
@@ -259,6 +262,7 @@
   import TYPE from 'common/js/buryingpointType'
   import { addLog } from 'api/buryingpoint'
   import { getProjectDetail, getCommentlist, addComment } from 'api/detail'
+  import { getoverdetails } from 'api/overseasList'
   import { projectnewest } from 'api/recommendList'
   import { getFirstVisited } from 'api/getFirstVisited'
   export default {
@@ -279,11 +283,12 @@
         msgIsShow: false,
         userMsg: [],
         id: this.$route.query.id,
-        textarea: '',
+        textaream: '',
         text: '',
         confirmBtnText: '确定',
         title: '',
         phone: '',
+        isover: this.$route.query.isover,
         inStock: 0,
         projectnewestData: {}
       }
@@ -302,13 +307,24 @@
           this.mengcengFlag = true
         }
       })
-      setTimeout(function () {
-        addLog(TYPE.PROJECTDETAIL, '', '', '', window.USERMSG)
+      setTimeout(() => {
+        if (this.$route.query.isover === 'over') {
+          addLog(TYPE.OVERSEASXPAGE, '', '', '', window.USERMSG)
+        } else {
+          addLog(TYPE.PROJECTDETAIL, '', '', '', window.USERMSG)
+        }
       }, 1500)
-      this._getDetail()
-      this._getCommentlist()
+      this._isover()
     },
     methods: {
+      _isover () {
+        if (this.isover === 'over') {
+          this._getoverdetails()
+        } else {
+          this._getDetail()
+          this._getCommentlist()
+        }
+      },
       // 点击求分销然后所做的事
       // 求分销
       projectnewest(id) {
@@ -323,26 +339,38 @@
       },
       // 分享页面
       toExprot () {
-        addLog(TYPE.PROJECTDETAIL, '', TYPE.PROJECTEXPORT, TYPE.PROJECTEXPORTPAGE, window.USERMSG).then(res => {
-          console.log(res)
-        })
+        if (this.$route.query.isover === 'over') {
+          addLog(TYPE.OVERSEASXPAGE, '', TYPE.OVERSEASHARE, TYPE.OVERSEASEXPORT, window.USERMSG).then(res => {
+            console.log(res)
+          })
+        } else {
+          addLog(TYPE.PROJECTDETAIL, '', TYPE.PROJECTEXPORT, TYPE.PROJECTEXPORTPAGE, window.USERMSG).then(res => {
+            console.log(res)
+          })
+        }
         var u = navigator.userAgent
         var isAndroid = u.indexOf('Android') > -1 || u.indexOf('Adr') > -1 // android终端
         var isiOS = !!u.match(/\(i[^;]+;( U;)? CPU.+Mac OS X/) // ios终端
         console.log(isAndroid)
         console.log(isiOS)
         if (isiOS) {
-          window.location.href = `/exportPage?id=${this.id}`
+          window.location.href = `/exportPage?id=${this.id}&isover=${this.isover}`
         } else {
-          this.$router.push({path: '/exportPage', query: {id: `${this.id}`}})
+          this.$router.push({path: '/exportPage', query: {id: `${this.id}`, isover: `${this.isover}`}})
         }
         // :to="{path:'/exportPage',query: {id: `${id}`}}"
       },
       // 添加打点
       addLog (id) {
-        addLog(TYPE.PROJECTDETAIL, '', TYPE.PROJECTDETAILBTN, TYPE.BAOBEIPAGE, window.USERMSG).then(res => {
-          console.log(res)
-        })
+        if (this.$route.query.isover === 'over') {
+          addLog(TYPE.OVERSEASXPAGE, '', TYPE.PROJECTDETAILBTN, TYPE.BAOBEIPAGE, window.USERMSG).then(res => {
+            console.log(res)
+          })
+        } else {
+          addLog(TYPE.PROJECTDETAIL, '', TYPE.PROJECTDETAILBTN, TYPE.BAOBEIPAGE, window.USERMSG).then(res => {
+            console.log(res)
+          })
+        }
         window.location.href = '/recommend?id=' + id
       },
       loadImage() {
@@ -394,20 +422,20 @@
         }, 20)
       },
       send() {
-        if (this.textarea === '') {
+        if (this.textaream === '') {
           this.text = '请输入内容'
           this.$refs.confirm.show()
           return
         }
         this.text = '发送成功，请等待留言审核..'
         this.$refs.confirm.show()
-        addComment(this.id, this.textarea).then(res => {
+        addComment(this.id, this.textaream).then(res => {
           if (res.data.code !== 0) {
             this.text = '网络异常..'
             this.$refs.confirm.show()
           }
         })
-        this.textarea = ''
+        this.textaream = ''
       },
       confirmCancel() {
         if (this.text === '正在整理此项目数据') {
@@ -443,6 +471,23 @@
         if (this.$refs.textareas) {
           this.$refs.textareas.blur()
         }
+      },
+      _getoverdetails () {
+        getoverdetails(this.id).then(res => {
+          if (res.data.code !== 0) {
+            this.text = '正在整理此项目数据'
+            this.$refs.confirm.show()
+            return
+          }
+          if (res.data.data) {
+            const data = res.data.data
+            this.sliderImg = data.homePage
+            this.phone = data.phone
+            this.title = data.projectName
+            this.inStock = data.inStock
+            this.detailList.push(data)
+          }
+        })
       },
       _getDetail() {
         getProjectDetail(this.id).then(res => {
@@ -552,6 +597,9 @@
         height: 100%
         overflow: hidden
         padding: 4%
+        p
+          font-size: 20px
+          margin: 3px 0
         span
           line-height: 20px
         .pink

@@ -115,6 +115,7 @@
   import { addLog } from 'api/buryingpoint'
   import { getProjectDetail } from 'api/detail'
   import { wechatlib } from '../../config/wxJDK'
+  import { getoverdetails } from 'api/overseasList'
   export default {
     data() {
       return {
@@ -122,7 +123,8 @@
         isToImg: false,
         detailList: [],
         heartImg: require('common/image/heart_07.png'),
-        id: this.$route.query.id
+        id: this.$route.query.id,
+        isover: this.$route.query.isover
       }
     },
     components: {
@@ -130,12 +132,24 @@
       MyTitle
     },
     created() {
-      setTimeout(function () {
-        addLog(TYPE.PROJECTEXPORTPAGE, '', '', '', window.USERMSG)
+      setTimeout(() => {
+        if (this.isover === 'over') {
+          addLog(TYPE.OVERSEASEXPORT, '', '', '', window.USERMSG)
+        } else {
+          addLog(TYPE.PROJECTEXPORTPAGE, '', '', '', window.USERMSG)
+        }
       }, 1500)
-      this._getDetail()
+      // this._getDetail()
+      this._isover()
     },
     methods: {
+      _isover () {
+        if (this.isover === 'over') {
+          this._getoverdetails()
+        } else {
+          this._getDetail()
+        }
+      },
       loadImage() {
         if (!this.checkloaded) {
           this.checkloaded = true
@@ -150,6 +164,24 @@
             return
           }
           if (res.status === 200) {
+            this.sliderImg = res.data.data.homePage
+            this.phone = res.data.data.phone
+            this.title = res.data.data.projectName
+            document.title = this.title
+            this.homeImgUrl = 'http://sofmanager.fangsir007.com/image/' + res.data.data.homePage[0]
+            this.detailList.push(res.data.data)
+            this._wxconfig()
+          }
+        })
+      },
+      _getoverdetails () {
+        getoverdetails(this.id).then(res => {
+          if (res.data.code !== 0) {
+            this.text = '正在整理此项目数据'
+            this.$refs.confirm.show()
+            return
+          }
+          if (res.data.data) {
             this.sliderImg = res.data.data.homePage
             this.phone = res.data.data.phone
             this.title = res.data.data.projectName

@@ -1,5 +1,8 @@
 <template>
 <div class="recommend">
+      <div class="fixed-img">
+        <img :src="fixedImg" alt="" @click="goverseas">
+      </div>
         <div class="mengceng-img" v-if="mengcengFlag">
           <img :src="mengcengImg" alt="" @click="hideMengceng">
         </div>
@@ -128,6 +131,7 @@ import PopBox from 'base/pop-box/pop-box'
 import Banner from 'base/banner/banner'
 import Confirm from 'base/confirm/confirm'
 import TYPE from 'common/js/buryingpointType'
+import OVERSEAS from 'common/image/overseas.png'
 import { addLog } from 'api/buryingpoint'
 export default {
   components: {
@@ -202,7 +206,8 @@ export default {
         width: document.body.clientWidth + 'px'
       },
       text: '',
-      projectnewestData: {}
+      projectnewestData: {},
+      fixedImg: OVERSEAS
     }
   },
   created () {
@@ -230,6 +235,13 @@ export default {
     // 点击隐藏蒙层
     hideMengceng () {
       this.mengcengFlag = false
+    },
+    // 海外房产
+    goverseas () {
+      addLog(TYPE.PROJECT, '', TYPE.OVERSEAS, TYPE.OVERSEASPAGE, window.USERMSG)
+      this.$router.push({
+        path: '/overseasList'
+      })
     },
     addLog (id) {
       console.log(id)
@@ -619,6 +631,14 @@ export default {
   bottom: 0
   font-size: $font-size-medium
   background: #eee
+  .fixed-img
+    position: fixed
+    z-index: 999999
+    top: 23rem
+    left: 0
+    padding: 10px 10px 10px 0
+    img
+      width: 30px
   .mengceng-img
     position: fixed
     z-index: 999999

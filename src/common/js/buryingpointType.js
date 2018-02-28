@@ -29,5 +29,19 @@ export default {
   // 项目分享到朋友圈失败
   'PROJECTTOCIRCLEOFFRIENDSBAD': 'B068',
   // 我要报备页面
-  'BAOBEIPAGE': 'P018'
+  'BAOBEIPAGE': 'P018',
+  // 海外房产
+  'OVERSEAS': 'B121',
+  // 海外房产页
+  'OVERSEASPAGE': 'P049',
+  // 海外房产报备按钮
+  'OVERSEASBTN': 'B020',
+  // 海外房产图片
+  'OVERSEASIMG': 'B019',
+  // 海外房产详情页
+  'OVERSEASXPAGE': 'P050',
+  // 海外房产分享按钮
+  'OVERSEASHARE': 'B062',
+  // 海外房产导出页面
+  'OVERSEASEXPORT': 'P051'
 }
