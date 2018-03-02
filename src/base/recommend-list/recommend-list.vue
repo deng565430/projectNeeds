@@ -16,7 +16,8 @@
                   <li v-if="item.project_name != null">{{item.project_name}} {{item.province}} {{item.city}}</li>
                   <li v-if="item.district != null">{{item.district}}</li>
                   <li v-if="item.type != null">{{item.area}} | {{item.type}}</li>
-                  <li v-if="item.commission != null">{{item.commission}} (个人到手税前佣金)</li>
+                  <li v-if="item.brokerage != null">{{item.brokerage}} (项目佣金)</li>
+                  <li v-if="item.commission != null">{{item.commission}} (个人佣金)</li>
                 </ul>
               </div>
               <div class="cen-par-right">
@@ -104,6 +105,9 @@
             font-weight: 900
           li:nth-child(2), li:nth-child(3)
             color: #999
+          li:nth-child(4)
+            color: #ff390a
+            font-size: 13px
           li:last-child
             color: #ff390a
             font-size: 13px

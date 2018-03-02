@@ -244,12 +244,15 @@ export default {
       })
     },
     addLog (id) {
-      console.log(id)
+      console.log(id.split('&'))
+      let Id = id.split('&')[0]
+      let isover = id.split('&')[1].split('=')[1]
       this.buryingPoint()
       this.$router.push({
         path: '/detail',
         query: {
-          id: id
+          id: Id,
+          isover: isover
         }
       })
     },
