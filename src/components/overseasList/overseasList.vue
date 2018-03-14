@@ -289,7 +289,12 @@ export default {
   bottom: 0;
   font-size: $font-size-medium;
   background: #eee;
-
+  .title {
+    position: fixed;
+    top: 0;
+    width: 100%;
+    z-index: 11111111;
+  }
   .mengceng-img {
     position: fixed;
     z-index: 999999;

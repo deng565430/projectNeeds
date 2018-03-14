@@ -32,7 +32,8 @@
                     <div v-if="item.commission != null" class="comm-t">
                       <div class="l">佣金标准</div>
                       <div class="r">
-                        <p>{{item.commission}}</p>
+                        <p v-if="item.brokerage != null">{{item.brokerage}}(项目佣金)</p>
+                        <p v-if="item.commission != null">{{item.commission}}(个人佣金)</p>
                       </div>
                     </div>
                     <div v-if="item.commissionJunction.length > 0 && item.commissionJunction[0].length > 0" class="comm-b">
@@ -92,12 +93,12 @@
                       </div>
                     </div>
                   </div>
-                  <div class="item-sell" v-if="item.policies != null && item.policies.length > 0">
+                  <div class="item-sell" v-if="item.policy != null && item.policy.length > 0">
                     <div>
                       <div class="pro-sell">
                         政策法规
                       </div>
-                      <div class="item-sell-child" :key="poItem" v-for="poItem in item.policies">
+                      <div class="item-sell-child" :key="poItem" v-for="poItem in item.policy">
                         <span class="sell-l"><i class="icon-star"></i></span>
                         <span class="sell-r">{{poItem}}</span>
                       </div>
