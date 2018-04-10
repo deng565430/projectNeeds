@@ -185,7 +185,7 @@
                   <div class="item-rule">
                     <div v-if="item.nameStandard != null">
                       <h3><i class="icon-book"></i>项目报备规则：</h3>
-                      <p>项目报备途径：提前{{item.way}}分钟报备'房先生创图经纪人平台'</p>
+                      <p>项目报备途径：提前{{item.way}}小时报备'房先生创图经纪人平台'</p>
                       <p>系统报备客户姓名标准：{{item.nameStandard}}</p>
                       <p>系统报备客户电话标准：{{item.telStandard}}</p>
                       <p>报备有效时间：{{item.protectDate}}天</p>
