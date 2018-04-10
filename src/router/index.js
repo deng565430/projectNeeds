@@ -10,6 +10,12 @@ const Details = (resolve) => {
   })
 }
 
+const SwiperDetail = (resolve) => {
+  import('components/swiperDetail/swiperDetail').then((module) => {
+    resolve(module)
+  })
+}
+
 const BannerDetail = (resolve) => {
   import('components/bannerDetail/bannerDetail').then((module) => {
     resolve(module)
@@ -25,6 +31,20 @@ const ExportPage = (resolve) => {
 // 海外房产
 const OverseasList = (resolve) => {
   import('components/overseasList/overseasList').then((module) => {
+    resolve(module)
+  })
+}
+
+// 完善客户资料
+const PerfectDatum = (resolve) => {
+  import('components/perfectDatum/perfectDatum').then((module) => {
+    resolve(module)
+  })
+}
+
+// 结佣资料
+const MaidDatum = (resolve) => {
+  import('components/maidDatum/maidDatum').then((module) => {
     resolve(module)
   })
 }
@@ -47,6 +67,9 @@ export default [
     component: BannerDetail,
     meta: { keepAlive: true }
   }, {
+    path: '/swiperDetail',
+    component: SwiperDetail
+  }, {
     path: '/exportPage',
     component: ExportPage,
     name: 'exportPage',
@@ -55,5 +78,13 @@ export default [
     path: '/overseasList',
     component: OverseasList,
     meta: { keepAlive: true }
+  }, {
+    path: '/perfectDatum',
+    component: PerfectDatum,
+    meta: {keepAlive: true}
+  }, {
+    path: '/maidDatum',
+    component: MaidDatum,
+    meta: {keepAlive: true}
   }]
 
