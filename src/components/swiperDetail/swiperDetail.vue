@@ -88,10 +88,9 @@ export default {
         width: 100%
         height: 100%
         img
-					display: block
           width: 100%
           height: 100% 
-					vertical-align: top
+          vertical-align: text-top
   .detail-enter-active, .detail-leave-active
     transition: all 0.3s
   .detail-enter, .detail-leave-to
