@@ -119,8 +119,8 @@
                       <p v-if="$route.query.isover !== 'over' && item.totalPrice != null && item.totalPrice !== ''">总价：{{item.totalPrice}}万起</p>
                       <p v-if="$route.query.isover === 'over' && item.totalPrice != null && item.totalPrice !== ''">总价：{{item.totalPrice}}万欧元起</p>
                       <p v-if="item.downPays != null && item.downPays !== ''">首付比例：{{item.downPays}}万起</p>
-                      <p v-if="item.deliveryTime != null && item.deliveryTime !== ''">交房时间：{{item.deliveryTime}}</p>
-                      <p v-if="item.renovation != null && item.renovation !== ''">交房标准：{{item.renovation}}</p>
+                      <p v-if="item.deliveryTime != null && item.deliveryTime !== ''">交房时间：{{item.deliveryTime}}</p>   
+                      <p v-if="item.renovationCode != null && item.renovationCode !== ''">交房标准：{{item.renovationCode}}</p>
                     </div>
                     <div class="info-clcik" v-if="!isShow" @click="showMove"><span>点击查看更多信息 <i class="icon-arrow"></i></span></div>
                     <div class="info-list" v-if="isShow">
