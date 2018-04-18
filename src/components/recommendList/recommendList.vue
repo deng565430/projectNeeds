@@ -256,12 +256,7 @@ export default {
     },
     addLog(row) {
       if (row.advertising) {
-        this.$router.push({
-          path: '/swiperDetail',
-          query: {
-            type: row.advertising
-          }
-        })
+        window.location.href='/swiperDetail?type='+row.advertising
       } else {
         console.log(row.projectid.split('&'))
         let Id = row.projectid.split('&')[0]
