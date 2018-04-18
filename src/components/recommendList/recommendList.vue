@@ -256,7 +256,7 @@ export default {
     },
     addLog(row) {
       if (row.advertising) {
-        window.location.href='/swiperDetail?type='+row.advertising
+        window.location.href = '/swiperDetail?type=' + row.advertising
       } else {
         console.log(row.projectid.split('&'))
         let Id = row.projectid.split('&')[0]
