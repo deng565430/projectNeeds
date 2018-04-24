@@ -6,7 +6,7 @@ let routerMode = 'history' // hash history
 let imgBaseUrl = ''
 
 if (process.env.NODE_ENV === 'development') {
-  baseUrl = 'http://192.168.3.7:8080' // http://sofmanager.fangsir007.com http://192.168.1.54:80 http://192.168.1.57:8080
+  baseUrl = 'http://192.168.3.40' // http://sofmanager.fangsir007.com http://192.168.1.54:80 http://192.168.1.57:8080
   // baseUrl = 'http://192.168.3.9:8080'//192.168.0.119//192.168.3.9
 } else if (process.env.NODE_ENV === 'production') {
   baseUrl = ''

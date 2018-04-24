@@ -93,7 +93,7 @@
 								<span class="feedback-text">收款凭证金额不争取（财务）</span>
 							</div>
 						</div>
-						<div class="btn" @click="_submit">提交</div>
+						<div class="btn" @click="submit">提交</div>
 					</div>
 				</div>
 			</scroll>
@@ -102,6 +102,7 @@
 	</transition>
 </template>
 <script>
+import { wechatlib } from '../../config/wxJDK'
 import { showDetail, uploadImg } from 'api/perfectDatum'
 import Confirm from 'base/confirm/confirm'
 import Uploader from 'base/image-uploader/uploader'
@@ -118,7 +119,8 @@ export default {
     creditcard: '',
     picked: 2,
     confirmText: '',
-    datumDetail: []
+    datumDetail: [],
+    media_ids: []
   }),
   components: {
     Confirm,
@@ -137,26 +139,49 @@ export default {
     }
   },
   created() {
+    console.log(localStorage.getItem('media_ids'))
     this._showDetail()
+    this._wxconfig()
   },
   methods: {
+    _wxconfig() {
+      let url = location.href.split('#')[0]
+      url = encodeURIComponent(url)
+      wechatlib(this, url)
+    },
     _showDetail() {
-      showDetail(location.search.split('=')[1]).then(res => {
-        this.projectName = res.data.data.processdInfo[0].projectName
-        this.reportid = res.data.data.processdInfo[0].reportid
-        this.realName = res.data.data.processdInfo[0].realName
-        this.idcard = res.data.data.processdInfo[0].idcard
-        this.bank = res.data.data.processdInfo[0].bank
-        this.creditcard = res.data.data.processdInfo[0].creditcard
-      })
+      // showDetail(location.search.split('=')[1]).then(res => {
+      //   this.projectName = res.data.data.processdInfo[0].projectName
+      //   this.reportid = res.data.data.processdInfo[0].reportid
+      //   this.realName = res.data.data.processdInfo[0].realName
+      //   this.idcard = res.data.data.processdInfo[0].idcard
+      //   this.bank = res.data.data.processdInfo[0].bank
+      //   this.creditcard = res.data.data.processdInfo[0].creditcard
+      // })
     },
     submit() {
       this.files = [
         ...this.$refs.uploader1.files,
-        ...this.$refs.uploader3.files,
+        ...this.$refs.uploader2.files,
         ...this.$refs.uploader3.files
       ]
-      console.log(this.files)
+      this.syncUpload()
+    },
+    syncUpload() {
+      if (this.files.length) {
+				let localId = this.files.pop()
+				console.log(localId)
+        this.wx.uploadImg({
+          localId,
+          success: function(res) {
+            console.log(res)
+            this.media_ids.push(res.serverId) // 返回图片的服务器端ID
+            localStorage.setItem('media_ids', JSON.stringify(this.media_ids))
+            console.log(this.media_ids)
+            this.syncUpload()
+          }
+        })
+      }
     },
     consummate() {
       window.location.href = 'http://localhost:8080/registration'
