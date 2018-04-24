@@ -7,29 +7,29 @@
 					<div class="user-info">
 						<div class="row">
 							<span class="label">报备单号：</span>
-							<span class="text">sof23131314323131313131312</span>
+							<span class="text">{{reportid}}</span>
 						</div>
 						<div class="row">
 							<span class="label">带看项目：</span>
-							<span class="text">长虹春天</span>
+							<span class="text">{{projectName}}</span>
 						</div>
 						<div class="row">
 							<span class="label">姓名：</span>
-							<span class="text">王</span>
+							<span class="text">{{realName}}</span>
 						</div>
 						<div class="row">
 							<span class="label">身份证号码：</span>
-							<span class="text">2322131321313123</span>
+							<span class="text">{{idcard}}</span>
 						</div>
 						<div class="row">
 							<span class="label">开户行：</span>
-							<span class="text">普陀支行</span>
+							<span class="text">{{bank}}</span>
 						</div>
 						<div class="row">
 							<span class="label">卡号：</span>
-							<span class="text">6225 1255 2562 2541 250</span>
+							<span class="text">{{newbank}}</span>
 						</div>
-						<div class="btn">完善个人信息</div>
+						<div class="btn" @click="consummate">完善个人信息</div>
 					</div>
 					<div class="line"></div>
 					<div class="content">
@@ -40,10 +40,10 @@
 							</div>
 							<div class="change">
 								<span>垫佣：</span>
-								<input type="radio" name="commission" value="1">是（70%佣金）
-								<input type="radio" name="commission" value="2">否（80%佣金）
+								<input type="radio" name="commission" value="1" v-model="picked">是（70%佣金）
+								<input type="radio" name="commission" value="2" v-model="picked">否（80%佣金）
 							</div>
-							<div class="feedback">
+							<div class="feedback" v-show="">
 								<span style="margin-right:0.5rem">反馈</span>
 								<span class="feedback-text">此项目不支持垫佣（项目对接：唔继东）</span>
 							</div>
@@ -56,8 +56,8 @@
 							<div class="content-title">
 								<i class="icon-s icon-clock"></i>带看单（限一张图片）
 							</div>
-							<uploader :max="1" ref="uploader1"></uploader>
-							<div class="feedback">
+							<uploader :max="1" ref="uploader1" @imgid="postimgid_01"></uploader>
+							<div class="feedback" v-show="">
 								<span style="margin-right:0.5rem">反馈</span>
 								<span class="feedback-text">测试测试测试测试测试</span>
 							</div>
@@ -71,8 +71,8 @@
 								<i class="icon-s icon-clock"></i>
 								<span>订购单（最多2张图片）</span>
 							</div>
-							<uploader :max="2" ref="uploader2"></uploader>
-							<div class="feedback">
+							<uploader :max="2" ref="uploader2" @imgid="postimgid_02"></uploader>
+							<div class="feedback" v-show="">
 								<span style="margin-right:0.5rem">反馈</span>
 								<span class="feedback-text">收款凭证金额不争取（财务）</span>
 							</div>
@@ -87,34 +87,66 @@
 								<span style="width: 95%">签约（提供合同的访问信息页图片，客户信息页图片，付款方式页，签字页，收款收据或发票，限6张图）
 								</span>
 							</div>
-							<uploader :max="6" ref="uploader3"></uploader>
-							<div class="feedback">
+							<uploader :max="6" ref="uploader3" @imgid="postimgid_03"></uploader>
+							<div class="feedback" v-show="">
 								<span style="margin-right:0.5rem">反馈</span>
 								<span class="feedback-text">收款凭证金额不争取（财务）</span>
 							</div>
 						</div>
-						<div class="btn" @click="submit">提交</div>
+						<div class="btn" @click="_submit">提交</div>
 					</div>
-				</div>
+				</div>	
 			</scroll>
+			<confirm ref="confirm" @cancel="cancelConfirm" :text="confirmText" @confirm="confirm"></confirm>
 		</div>
 	</transition>
 </template>
-
 <script>
+import { showDetail, uploadImg } from 'api/perfectDatum'
+import Confirm from 'base/confirm/confirm'
 import Uploader from 'base/image-uploader/uploader'
 import MyTitle from 'base/title/title'
 import Scroll from 'base/scroll/scroll'
 export default {
   data: () => ({
-    files: []
+    files: [],
+    reportid: '',
+    projectName: '',
+    realName: '',
+    idcard: '',
+    bank: '',
+    creditcard: '',
+    picked: 2,
+    confirmText: '',
+    datumDetail: []
   }),
   components: {
+    Confirm,
     Uploader,
     MyTitle,
     Scroll
   },
+  computed: {
+    newbank: function () {
+      if (this.creditcard) {
+        return this.creditcard.replace(/\s/g, '').replace(/\D/g, '').replace(/(\d{4})(?=\d)/g, '$1')
+      }
+    }
+  },
+  created() {
+    this._showDetail()
+  },
   methods: {
+    _showDetail() {
+      showDetail(location.search.split('=')[1]).then(res => {
+        this.projectName = res.data.data.processdInfo[0].projectName
+        this.reportid = res.data.data.processdInfo[0].reportid
+        this.realName = res.data.data.processdInfo[0].realName
+        this.idcard = res.data.data.processdInfo[0].idcard
+        this.bank = res.data.data.processdInfo[0].bank
+        this.creditcard = res.data.data.processdInfo[0].creditcard
+      })
+    },
     submit() {
       this.files = [
         ...this.$refs.uploader1.files,
@@ -122,9 +154,47 @@ export default {
         ...this.$refs.uploader3.files
       ]
       console.log(this.files)
+    },
+    consummate() {
+      window.location.href = 'http://localhost:8080/registration'
+    },
+    toCompletion() {
+      if (!(this.reportid || this.projectName || this.realName || this.idcard || this.bank || this.creditcard)) {
+      }
+    },
+    postimgid_01(msg) {
+      let data = {
+        serverId: msg,
+        reportid: this.reportid,
+        flag: '2'
+      }
+      uploadImg(data).then(res => {
+        console.log(res)
+      })
+    },
+    postimgid_02(msg) {
+      let data = {
+        serverId: msg,
+        reportid: this.reportid,
+        flag: '3'
+      }
+      uploadImg(data).then(res => {
+        console.log(res)
+      })
+    },
+    postimgid_03(msg) {
+      let data = {
+        serverId: msg,
+        reportid: this.reportid,
+        flag: '4'
+      }
+      uploadImg(data).then(res => {
+        console.log(res)
+      })
     }
   }
 }
+
 </script>
 
 <style scoped lang="stylus" rel="stylesheet/stylus">
@@ -285,5 +355,6 @@ export default {
 		margin: 0 auto;
 		border-radius: 2px;
 	}
+
 }
 </style>

@@ -21,7 +21,9 @@ export default {
     max: Number // 图片数量
   },
   data: () => ({
-    files: []
+    files: [],
+    serverId: [],
+    ceshi: ['123', '222', '3333']
   }),
   mounted() {
     this._wxconfig()
@@ -50,6 +52,20 @@ export default {
           })
         }
       })
+      self.files.map(function(item, key, ary) {
+        self.wx.uploadImage({
+          localId: item,
+          success: function (res) {
+          // alert('已上传：' + i + '/' + length);
+            self.serverId.push(res.serverId)
+          },
+          fail: function (res) {
+            alert(JSON.stringify(res))
+          }
+        })
+        console.log(item)
+      })
+      this.$emit('imgid', this.serverId)
     },
     // 删除图片
     remove(i) {
