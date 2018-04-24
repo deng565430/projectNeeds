@@ -1,30 +1,34 @@
 <template>
-  <transition name="swiper-detail">
-    <div class="swiper-detail">
-      <div class="title">
-        <my-title :title="'平台消息'"></my-title>
-      </div>
-      <scroll ref="scroll" class="scroll">
-        <div>
-          <div class="detail-content" v-if="$route.query.type == 1">
-            <img :src="bg" @load="loadImage" alt="">
-          </div>
-          <div class="detail-content" v-if="$route.query.type == 2">
-            <img :src="relay1" @load="loadImage" alt="">
-          </div>
-          <div class="detail-content" v-if="$route.query.type == 2">
-            <img :src="relay2" @load="loadImage" alt="">
-          </div>
-          <div class="detail-content" v-if="$route.query.type == 2">
-            <img :src="relay3" @load="loadImage" alt="">
-          </div>
-          <div class="detail-content" v-if="$route.query.type == 2">
-            <img :src="relay4" @load="loadImage" alt="">
-          </div>
-        </div>
-      </scroll>
+  <div class="swiper-detail">
+    <div class="title">
+      <my-title :title="'平台消息'"></my-title>
     </div>
-  </transition>
+    <scroll ref="scroll" class="scroll">
+      <div>
+        <div class="detail-content" v-if="$route.query.type == 1">
+          <img :src="bg" @load="loadImage" alt="">
+        </div>
+        <div class="detail-content" v-if="$route.query.type == 2">
+          <img :src="relay1" @load="loadImage" alt="">
+        </div>
+        <div class="detail-content" v-if="$route.query.type == 2">
+          <img :src="relay2" @load="loadImage" alt="">
+        </div>
+        <div class="detail-content" v-if="$route.query.type == 2">
+          <img :src="relay3" @load="loadImage" alt="">
+        </div>
+        <div class="detail-content" v-if="$route.query.type == 2">
+          <img :src="relay4" @load="loadImage" alt="">
+        </div>
+        <div class="detail-content" v-for="item in ldxImgList" v-if="$route.query.type == 3">
+          <img :src="item.url" @load="loadImage" alt="">
+        </div>
+        <div class="detail-content" v-for="item in qiangImgList" v-if="$route.query.type == 4">
+          <img :src="item.url" @load="loadImage" alt="">
+        </div>
+      </div>
+    </scroll>
+  </div>
 </template>
 
 <script type="text/ecmascript-6">
@@ -44,7 +48,31 @@ export default {
       relay1: require('common/image/relay1.jpg'),
       relay2: require('common/image/relay2.jpg'),
       relay3: require('common/image/relay3.jpg'),
-      relay4: require('common/image/relay4.jpg')
+      relay4: require('common/image/relay4.jpg'),
+      ldxImgList: [
+        { url: require('common/image/guanggao/ldx_01.jpg') },
+        { url: require('common/image/guanggao/ldx_02.jpg') },
+        { url: require('common/image/guanggao/ldx_03.jpg') },
+        { url: require('common/image/guanggao/ldx_04.jpg') },
+        { url: require('common/image/guanggao/ldx_05.jpg') },
+        { url: require('common/image/guanggao/ldx_06.jpg') },
+        { url: require('common/image/guanggao/ldx_07.jpg') },
+        { url: require('common/image/guanggao/ldx_08.jpg') }
+      ],
+      qiangImgList: [
+        { url: require('common/image/guanggao/qiang_01.jpg') },
+        { url: require('common/image/guanggao/qiang_02.jpg') },
+        { url: require('common/image/guanggao/qiang_03.jpg') },
+        { url: require('common/image/guanggao/qiang_04.jpg') },
+        { url: require('common/image/guanggao/qiang_05.jpg') },
+        { url: require('common/image/guanggao/qiang_06.jpg') },
+        { url: require('common/image/guanggao/qiang_07.jpg') },
+        { url: require('common/image/guanggao/qiang_08.jpg') },
+        { url: require('common/image/guanggao/qiang_09.jpg') },
+        { url: require('common/image/guanggao/qiang_10.jpg') },
+        { url: require('common/image/guanggao/qiang_11.jpg') },
+        { url: require('common/image/guanggao/qiang_12.jpg') }
+      ]
     }
   },
   created() {
