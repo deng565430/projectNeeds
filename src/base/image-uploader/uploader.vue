@@ -1,17 +1,17 @@
 <template>
-	<div class="vue-uploader">
-		<div class="file-list">
-			<section v-for="(file, index) in files" class="file-item draggable-item" :key="file">
-				<img :src="file" alt="" ondragstart="return false;" @click="previewImage(file)">
-				<span class="file-remove" @click="remove(index)">+</span>
-			</section>
-			<section class="file-item">
-				<div class="add" @click="chooseImage">
-					<span style="color:#ccc;font-size:3rem;">+</span>
-				</div>
-			</section>
-		</div>
-	</div>
+  <div class="vue-uploader">
+    <div class="file-list">
+      <section v-for="(file, index) in files" class="file-item draggable-item" :key="file">
+        <img :src="file" alt="" ondragstart="return false;" @click="previewImage(file)">
+        <span class="file-remove" @click="remove(index)">+</span>
+      </section>
+      <section class="file-item">
+        <div class="add" @click="chooseImage">
+          <span style="color:#ccc;font-size:3rem;">+</span>
+        </div>
+      </section>
+    </div>
+  </div>
 </template>
 
 <script>
@@ -26,7 +26,7 @@ export default {
     ceshi: ['123', '222', '3333']
   }),
   mounted() {
-    this._wxconfig()
+    // this._wxconfig()
   },
   methods: {
     _wxconfig() {
@@ -35,50 +35,47 @@ export default {
     },
     // 选择图片
     chooseImage() {
+      console.log(wx.chooseImage)
       const self = this
-      self.wx.chooseImage({
-        count: this.max, // 默认9
-        sizeType: ['original', 'compressed'], // 可以指定是原图还是压缩图，默认二者都有
-        sourceType: ['album', 'camera'], // 可以指定来源是相册还是相机，默认二者都有
+      wx.checkJsApi({
+        jsApiList: ['getNetworkType', 'previewImage'],
         success: function(res) {
-          // 防止图片超出限制张数
-          res.localIds.map(i => {
-            if (self.files.length === self.max) {
-              self.files.shift()
-              self.files.unshift(i)
-            } else {
-              self.files.push(i)
-            }
-          })
+          console.log(JSON.stringify(res))
         }
       })
-      self.files.map(function(item, key, ary) {
-        self.wx.uploadImage({
-          localId: item,
-          success: function (res) {
-          // alert('已上传：' + i + '/' + length);
-            self.serverId.push(res.serverId)
-          },
-          fail: function (res) {
-            alert(JSON.stringify(res))
-          }
-        })
-        console.log(item)
+      wx.chooseImage({
+        success: function(res) {
+          console.log(res)
+          var localIds = res.localIds // 返回选定照片的本地ID列表，localId可以作为img标签的src属性显示图片
+        }
       })
-      this.$emit('imgid', this.serverId)
-    },
-    // 删除图片
-    remove(i) {
-      this.files.splice(i, 1)
-    },
-    // 预览图片
-    previewImage(currentImg) {
-      const self = this
-      self.wx.previewImage({
-        current: currentImg, // 当前显示图片的http链接
-        urls: self.files // 需要预览的图片http链接列表
-      })
+      // self.files.map(function(item, key, ary) {
+      //   self.wx.uploadImage({
+      //     localId: item,
+      //     success: function (res) {
+      //     // alert('已上传：' + i + '/' + length);
+      //       self.serverId.push(res.serverId)
+      //     },
+      //     fail: function (res) {
+      //       alert(JSON.stringify(res))
+      //     }
+      //   })
+      //   console.log(item)
+      // })
+      // this.$emit('imgid', this.serverId)
     }
+    // // 删除图片
+    // remove(i) {
+    //   this.files.splice(i, 1)
+    // },
+    // // 预览图片
+    // previewImage(currentImg) {
+    //   const self = this
+    //   self.wx.previewImage({
+    //     current: currentImg, // 当前显示图片的http链接
+    //     urls: self.files // 需要预览的图片http链接列表
+    //   })
+    // }
   }
 }
 </script>

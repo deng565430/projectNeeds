@@ -95,7 +95,7 @@
 						</div>
 						<div class="btn" @click="_submit">提交</div>
 					</div>
-				</div>	
+				</div>
 			</scroll>
 			<confirm ref="confirm" @cancel="cancelConfirm" :text="confirmText" @confirm="confirm"></confirm>
 		</div>
@@ -127,9 +127,12 @@ export default {
     Scroll
   },
   computed: {
-    newbank: function () {
+    newbank: function() {
       if (this.creditcard) {
-        return this.creditcard.replace(/\s/g, '').replace(/\D/g, '').replace(/(\d{4})(?=\d)/g, '$1')
+        return this.creditcard
+          .replace(/\s/g, '')
+          .replace(/\D/g, '')
+          .replace(/(\d{4})(?=\d)/g, '$1')
       }
     }
   },
@@ -159,7 +162,16 @@ export default {
       window.location.href = 'http://localhost:8080/registration'
     },
     toCompletion() {
-      if (!(this.reportid || this.projectName || this.realName || this.idcard || this.bank || this.creditcard)) {
+      if (
+        !(
+          this.reportid ||
+          this.projectName ||
+          this.realName ||
+          this.idcard ||
+          this.bank ||
+          this.creditcard
+        )
+      ) {
       }
     },
     postimgid_01(msg) {
@@ -194,7 +206,6 @@ export default {
     }
   }
 }
-
 </script>
 
 <style scoped lang="stylus" rel="stylesheet/stylus">
@@ -214,7 +225,7 @@ export default {
 		bottom: 55px;
 		width: 100%;
 		padding-top: 50px;
-		z-index: -1
+		z-index: -1;
 
 		.icon {
 			display: inline-block;
@@ -355,6 +366,5 @@ export default {
 		margin: 0 auto;
 		border-radius: 2px;
 	}
-
 }
 </style>

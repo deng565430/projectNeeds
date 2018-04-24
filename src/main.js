@@ -9,6 +9,8 @@ import { routerMode } from './config/env'  // 打包项目要把mode: history注
 import fastclick from 'fastclick'
 import VueLazyload from 'vue-lazyload'
 import wx from 'wx'
+const vconsole = require('./../vconsole.min.js')
+const vConsole = new vconsole();
 
 /* eslint-disble no-unused-vars */
 import 'common/js/usermsg.js'
