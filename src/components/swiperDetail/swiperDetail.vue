@@ -3,35 +3,13 @@
     <div class="title">
       <my-title :title="'平台消息'"></my-title>
     </div>
-    <scroll ref="scroll" class="scroll">
-      <div>
-        <div class="detail-content" v-if="$route.query.type == 1">
-          <img :src="bg" @load="loadImage" alt="">
-        </div>
-        <div class="detail-content" v-if="$route.query.type == 2">
-          <img :src="relay1" @load="loadImage" alt="">
-        </div>
-        <div class="detail-content" v-if="$route.query.type == 2">
-          <img :src="relay2" @load="loadImage" alt="">
-        </div>
-        <div class="detail-content" v-if="$route.query.type == 2">
-          <img :src="relay3" @load="loadImage" alt="">
-        </div>
-        <div class="detail-content" v-if="$route.query.type == 2">
-          <img :src="relay4" @load="loadImage" alt="">
-        </div>
-        <div class="detail-content" v-for="item in ldxImgList" v-if="$route.query.type == 3">
-          <img :src="item.url" @load="loadImage" alt="">
-        </div>
-        <div class="detail-content" v-for="item in qiangImgList" v-if="$route.query.type == 4">
-          <img :src="item.url" @load="loadImage" alt="">
-        </div>
-      </div>
-    </scroll>
+    <div v-html="html" id="img">
+    </div>
   </div>
 </template>
 
 <script type="text/ecmascript-6">
+import { getrotation } from 'api/swiperDetail'
 import MyTitle from 'base/title/title'
 import Scroll from 'base/scroll/scroll'
 import { countNum } from 'api/bannerDetail'
@@ -44,38 +22,13 @@ export default {
   },
   data() {
     return {
-      bg: require('common/image/swiper1.jpg'),
-      relay1: require('common/image/relay1.jpg'),
-      relay2: require('common/image/relay2.jpg'),
-      relay3: require('common/image/relay3.jpg'),
-      relay4: require('common/image/relay4.jpg'),
-      ldxImgList: [
-        { url: require('common/image/guanggao/ldx_01.jpg') },
-        { url: require('common/image/guanggao/ldx_02.jpg') },
-        { url: require('common/image/guanggao/ldx_03.jpg') },
-        { url: require('common/image/guanggao/ldx_04.jpg') },
-        { url: require('common/image/guanggao/ldx_05.jpg') },
-        { url: require('common/image/guanggao/ldx_06.jpg') },
-        { url: require('common/image/guanggao/ldx_07.jpg') },
-        { url: require('common/image/guanggao/ldx_08.jpg') }
-      ],
-      qiangImgList: [
-        { url: require('common/image/guanggao/qiang_01.jpg') },
-        { url: require('common/image/guanggao/qiang_02.jpg') },
-        { url: require('common/image/guanggao/qiang_03.jpg') },
-        { url: require('common/image/guanggao/qiang_04.jpg') },
-        { url: require('common/image/guanggao/qiang_05.jpg') },
-        { url: require('common/image/guanggao/qiang_06.jpg') },
-        { url: require('common/image/guanggao/qiang_07.jpg') },
-        { url: require('common/image/guanggao/qiang_08.jpg') },
-        { url: require('common/image/guanggao/qiang_09.jpg') },
-        { url: require('common/image/guanggao/qiang_10.jpg') },
-        { url: require('common/image/guanggao/qiang_11.jpg') },
-        { url: require('common/image/guanggao/qiang_12.jpg') }
-      ]
+      html: ''
     }
   },
   created() {
+    getrotation(this.$route.query.id).then(res => {
+      this.html = res.data.data
+    })
     const self = this
     setTimeout(function() {
       if (parseInt(self.$route.query.type) === 1) {
@@ -87,13 +40,8 @@ export default {
     }, 1500)
     this._countNum()
   },
+  updated() {},
   methods: {
-    loadImage() {
-      if (!this.checkloaded) {
-        this.checkloaded = true
-      }
-      this.$refs.scroll.refresh()
-    },
     _countNum() {
       countNum().then(res => {})
     }
@@ -101,43 +49,13 @@ export default {
 }
 </script>
 
-<style scoped lang="stylus" rel="stylesheet/stylus">
+<style lang="stylus" rel="stylesheet/stylus">
 @import '~common/stylus/variable';
 
 .swiper-detail {
-  position: fixed;
+  padding-top: 50px;
   width: 100%;
-  top: 0px;
-  bottom: 0;
-  z-index: 10000;
   background: #eee;
   font-size: $font-size-medium;
-
-  .scroll {
-    position: fixed;
-    top: 50px;
-    bottom: 0;
-    width: 100%;
-    overflow: hidden;
-
-    .detail-content {
-      width: 100%;
-      height: 100%;
-
-      img {
-        width: 100%;
-        height: 100%;
-        vertical-align: text-top;
-      }
-    }
-  }
-}
-
-.detail-enter-active, .detail-leave-active {
-  transition: all 0.3s;
-}
-
-.detail-enter, .detail-leave-to {
-  transform: translate3d(100%, 0, 0);
 }
 </style>
