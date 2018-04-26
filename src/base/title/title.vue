@@ -26,6 +26,9 @@
 <style scoped lang="stylus" rel="stylesheet/stylus">
 
   .title
+      position fixed
+      top 0
+      width 100%
       text-align: center
       height: 50px
       line-height: 50px

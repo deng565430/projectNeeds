@@ -65,41 +65,30 @@ export default {
 </script>
 
 <style scoped lang="stylus" rel="stylesheet/stylus">
-@import '~common/stylus/variable';
-
-.banner-detail {
-  position: fixed;
-  width: 100%;
-  top: 0px;
-  bottom: 0;
-  z-index: 10000;
-  background: #eee;
-  font-size: $font-size-medium;
-
-  .scroll {
-    position: fixed;
-    top: 50px;
-    bottom: 0;
-    width: 100%;
-    overflow: hidden;
-
-    .detail-content {
-      width: 100%;
-      height: 100%;
-
-      img {
-        width: 100%;
-        height: 100%;
-      }
-    }
-  }
-}
-
-.detail-enter-active, .detail-leave-active {
-  transition: all 0.3s;
-}
-
-.detail-enter, .detail-leave-to {
-  transform: translate3d(100%, 0, 0);
-}
+  @import "~common/stylus/variable"
+  .banner-detail
+    position: fixed
+    width: 100%
+    top: 0px
+    bottom: 0
+    z-index: 10000
+    background: #eee
+    font-size: $font-size-medium
+    .scroll
+      position: fixed
+      top: 50px
+      bottom: 0
+      width: 100%
+      overflow: hidden
+      .detail-content
+        width: 100%
+        height: 100%
+        img
+          width: 100%
+          height: 100%
+          vertical-align: text-top
+  .detail-enter-active, .detail-leave-active
+    transition: all 0.3s
+  .detail-enter, .detail-leave-to
+    transform: translate3d(100%, 0, 0)
 </style>

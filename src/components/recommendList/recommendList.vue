@@ -257,9 +257,9 @@ export default {
     addLog(row) {
       if (row.advertising) {
         this.$router.push({
-          path: '/swiperDetail',
+          path: 'swiperDetail',
           query: {
-            type: row.advertising
+            id: row.id
           }
         })
       } else {

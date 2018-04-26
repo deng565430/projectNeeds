@@ -43,5 +43,9 @@ export default {
   // 海外房产分享按钮
   'OVERSEASHARE': 'B062',
   // 海外房产导出页面
-  'OVERSEASEXPORT': 'P051'
+  'OVERSEASEXPORT': 'P051',
+  // 平台消息页面1
+  'SWIPERDETAIL1': 'G001',
+  // 平台消息页面2
+  'SWIPERDETAIL2': 'G002'
 }
